@@ -1,12 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import { useHisaabData } from './hooks/useHisaabData';
 import { useTheme } from './hooks/useTheme';
+import { useAuth } from './hooks/useAuth';
 import { PersonCard } from './components/PersonCard';
 import { AddEntryPanel } from './components/AddEntryPanel';
 import { RepaymentPanel } from './components/RepaymentPanel';
 import { EditEntryPanel } from './components/EditEntryPanel';
 import { EditRepaymentPanel } from './components/EditRepaymentPanel';
-import { Activity, Moon, Plus, Sun } from 'lucide-react';
+import { SignInScreen } from './components/SignInScreen';
+import { Activity, LogOut, Moon, Plus, Sun } from 'lucide-react';
 import type { Entry, Repayment } from './types';
 
 function groupByPerson(list: Entry[]) {
@@ -19,6 +21,27 @@ function groupByPerson(list: Entry[]) {
 }
 
 export default function App() {
+  const { user, loading: authLoading, signInWithGoogle, signOut } = useAuth();
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-app flex items-center justify-center">
+        <div className="flex flex-col items-center animate-pulse text-orange-500">
+          <Activity className="w-8 h-8 mb-4 border border-orange-500 rounded p-1" />
+          <p className="font-bold tracking-widest text-xs uppercase text-subtle">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <SignInScreen onSignIn={signInWithGoogle} />;
+  }
+
+  return <AuthenticatedApp onSignOut={signOut} />;
+}
+
+function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
   const { entries, loading, error, addEntry, addRepayment, markSettled, editEntry, markPersonSettled, addRepaymentForPerson, editRepayment, deleteEntry, deleteRepayment } = useHisaabData();
   const { theme, toggle: toggleTheme } = useTheme();
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -88,13 +111,22 @@ export default function App() {
               <Moon className="w-5 h-5 text-orange-500" />
             )}
           </button>
-          <button
-            onClick={() => setIsAddOpen(true)}
-            aria-label="Add entry"
-            className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/20 cursor-pointer hover:bg-orange-500/20 transition-colors"
-          >
-            <Plus className="w-5 h-5 text-orange-500" />
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={onSignOut}
+              aria-label="Sign out"
+              className="w-10 h-10 rounded-full bg-fg/5 flex items-center justify-center border border-hairline cursor-pointer hover:bg-fg/10 transition-colors"
+            >
+              <LogOut className="w-4 h-4 text-muted" />
+            </button>
+            <button
+              onClick={() => setIsAddOpen(true)}
+              aria-label="Add entry"
+              className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/20 cursor-pointer hover:bg-orange-500/20 transition-colors"
+            >
+              <Plus className="w-5 h-5 text-orange-500" />
+            </button>
+          </div>
         </div>
 
         {/* Summary Metrics */}
