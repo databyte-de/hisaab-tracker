@@ -1,0 +1,6 @@
+{
+  "name": "Hisaab",
+  "description": "A dark-mode mobile web app for tracking dues, lentils, and miscellaneous expenses with Supabase.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
