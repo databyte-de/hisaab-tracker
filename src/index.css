@@ -26,13 +26,13 @@
 }
 
 .dark {
-  --app: #13110f;
-  --surface: #1d1a17;
-  --surface-2: #272320;
-  --hairline: rgba(255, 235, 210, 0.07);
-  --fg: #ece7df;
-  --muted: #a8a098;
-  --subtle: #7a736b;
+  --app: #15120f;
+  --surface: #221e1a;
+  --surface-2: #2d2824;
+  --hairline: rgba(255, 235, 210, 0.12);
+  --fg: #f3eee5;
+  --muted: #c8bdb0;
+  --subtle: #a59a8d;
 }
 
 @layer base {
