@@ -8,7 +8,7 @@ import { RepaymentPanel } from './components/RepaymentPanel';
 import { EditEntryPanel } from './components/EditEntryPanel';
 import { EditRepaymentPanel } from './components/EditRepaymentPanel';
 import { SignInScreen } from './components/SignInScreen';
-import { Activity, LogOut, Moon, Plus, Sun } from 'lucide-react';
+import { Activity, LogOut, Monitor, Moon, Plus, Sun } from 'lucide-react';
 import type { Entry, Repayment } from './types';
 
 function groupByPerson(list: Entry[]) {
@@ -43,7 +43,7 @@ export default function App() {
 
 function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
   const { entries, loading, error, addEntry, addRepayment, markSettled, editEntry, markPersonSettled, addRepaymentForPerson, editRepayment, deleteEntry, deleteRepayment } = useHisaabData();
-  const { theme, toggle: toggleTheme } = useTheme();
+  const { mode: themeMode, cycle: cycleTheme } = useTheme();
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [repaymentData, setRepaymentData] = useState<{ personName: string; balance: number; entries: Entry[] } | null>(null);
   const [editingEntry, setEditingEntry] = useState<Entry | null>(null);
@@ -101,15 +101,14 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
         <div className="flex justify-between items-center mb-6 relative">
           <h1 className="text-2xl font-bold tracking-tight text-fg absolute left-1/2 transform -translate-x-1/2">Len-Den</h1>
           <button
-            onClick={toggleTheme}
-            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            onClick={cycleTheme}
+            aria-label={`Theme: ${themeMode}. Click to change.`}
+            title={`Theme: ${themeMode}`}
             className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/20 cursor-pointer hover:bg-orange-500/20 transition-colors"
           >
-            {theme === 'dark' ? (
-              <Sun className="w-5 h-5 text-orange-500" />
-            ) : (
-              <Moon className="w-5 h-5 text-orange-500" />
-            )}
+            {themeMode === 'auto' && <Monitor className="w-5 h-5 text-orange-500" />}
+            {themeMode === 'light' && <Sun className="w-5 h-5 text-orange-500" />}
+            {themeMode === 'dark' && <Moon className="w-5 h-5 text-orange-500" />}
           </button>
           <div className="flex gap-2">
             <button

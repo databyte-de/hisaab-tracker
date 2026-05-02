@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#13110f" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#f8f5f0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#f8f5f0" />
     <title>Len-Den</title>
     <script>
       (function () {
@@ -14,6 +13,8 @@
           var theme = stored === 'light' || stored === 'dark' ? stored : (prefersDark ? 'dark' : 'light');
           if (theme === 'dark') document.documentElement.classList.add('dark');
           document.documentElement.style.colorScheme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'dark' ? '#15120f' : '#f8f5f0');
         } catch (e) {}
       })();
     </script>

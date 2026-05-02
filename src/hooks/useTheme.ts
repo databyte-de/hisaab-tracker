@@ -1,55 +1,64 @@
 import { useEffect, useState } from 'react';
 
-type Theme = 'light' | 'dark';
+type Mode = 'auto' | 'light' | 'dark';
+type Resolved = 'light' | 'dark';
 
 const STORAGE_KEY = 'theme';
 
-function getSystemPref(): Theme {
+function getSystemPref(): Resolved {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-function getStored(): Theme | null {
+function getStored(): Mode {
   try {
     const v = localStorage.getItem(STORAGE_KEY);
-    if (v === 'light' || v === 'dark') return v;
+    if (v === 'light' || v === 'dark' || v === 'auto') return v;
   } catch {
     /* ignore */
   }
-  return null;
+  return 'auto';
 }
 
-function applyTheme(theme: Theme) {
+function applyTheme(theme: Resolved) {
   const root = document.documentElement;
   root.classList.toggle('dark', theme === 'dark');
   root.style.colorScheme = theme;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', theme === 'dark' ? '#15120f' : '#f8f5f0');
 }
 
 export function useTheme() {
-  const [theme, setTheme] = useState<Theme>(() => getStored() ?? getSystemPref());
+  const [mode, setMode] = useState<Mode>(() => getStored());
+  const [resolved, setResolved] = useState<Resolved>(() => {
+    const m = getStored();
+    return m === 'auto' ? getSystemPref() : m;
+  });
 
   useEffect(() => {
-    applyTheme(theme);
-  }, [theme]);
+    setResolved(mode === 'auto' ? getSystemPref() : mode);
+  }, [mode]);
 
   useEffect(() => {
-    if (getStored() !== null) return;
+    applyTheme(resolved);
+  }, [resolved]);
+
+  useEffect(() => {
+    if (mode !== 'auto') return;
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const onChange = () => {
-      if (getStored() === null) setTheme(mq.matches ? 'dark' : 'light');
-    };
+    const onChange = () => setResolved(mq.matches ? 'dark' : 'light');
     mq.addEventListener('change', onChange);
     return () => mq.removeEventListener('change', onChange);
-  }, []);
+  }, [mode]);
 
-  const toggle = () => {
-    const next: Theme = theme === 'dark' ? 'light' : 'dark';
+  const cycle = () => {
+    const next: Mode = mode === 'auto' ? 'light' : mode === 'light' ? 'dark' : 'auto';
     try {
       localStorage.setItem(STORAGE_KEY, next);
     } catch {
       /* ignore */
     }
-    setTheme(next);
+    setMode(next);
   };
 
-  return { theme, toggle };
+  return { mode, resolved, cycle };
 }
