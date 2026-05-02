@@ -148,15 +148,26 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
                     className="w-full bg-[#1a1a1a] border border-white/10 rounded-2xl px-5 py-4 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 font-bold"
                   />
                 </div>
-                <div>
-                  <label className="block text-[10px] uppercase tracking-widest font-semibold text-slate-500 mb-3">
-                    Date (Optional)
-                  </label>
+                <div className="min-w-0">
+                  <div className="flex items-center justify-between mb-3 gap-2">
+                    <label className="text-[10px] uppercase tracking-widest font-semibold text-slate-500">
+                      Date (Optional)
+                    </label>
+                    {date && (
+                      <button
+                        type="button"
+                        onClick={() => setDate('')}
+                        className="text-[10px] uppercase tracking-widest font-semibold text-sky-400 hover:text-sky-300"
+                      >
+                        Clear
+                      </button>
+                    )}
+                  </div>
                   <input
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full bg-[#1a1a1a] border border-white/10 rounded-2xl px-5 py-4 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 [&::-webkit-calendar-picker-indicator]:filter-invert"
+                    className="w-full min-w-0 bg-[#1a1a1a] border border-white/10 rounded-2xl px-3 py-4 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 [&::-webkit-calendar-picker-indicator]:invert"
                   />
                 </div>
               </div>
