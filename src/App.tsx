@@ -1,11 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { useHisaabData } from './hooks/useHisaabData';
+import { useTheme } from './hooks/useTheme';
 import { PersonCard } from './components/PersonCard';
 import { AddEntryPanel } from './components/AddEntryPanel';
 import { RepaymentPanel } from './components/RepaymentPanel';
 import { EditEntryPanel } from './components/EditEntryPanel';
 import { EditRepaymentPanel } from './components/EditRepaymentPanel';
-import { Activity, Plus } from 'lucide-react';
+import { Activity, Moon, Plus, Sun } from 'lucide-react';
 import type { Entry, Repayment } from './types';
 
 function groupByPerson(list: Entry[]) {
@@ -19,6 +20,7 @@ function groupByPerson(list: Entry[]) {
 
 export default function App() {
   const { entries, loading, error, addEntry, addRepayment, markSettled, editEntry, markPersonSettled, addRepaymentForPerson, editRepayment, deleteEntry, deleteRepayment } = useHisaabData();
+  const { theme, toggle: toggleTheme } = useTheme();
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [repaymentData, setRepaymentData] = useState<{ personName: string; balance: number; entries: Entry[] } | null>(null);
   const [editingEntry, setEditingEntry] = useState<Entry | null>(null);
@@ -60,25 +62,35 @@ export default function App() {
 
   if (loading && entries.length === 0) {
     return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
-        <div className="flex flex-col items-center animate-pulse text-orange-400">
+      <div className="min-h-screen bg-app flex items-center justify-center">
+        <div className="flex flex-col items-center animate-pulse text-orange-500">
           <Activity className="w-8 h-8 mb-4 border border-orange-500 rounded p-1" />
-          <p className="font-bold tracking-widest text-xs uppercase text-slate-500">Loading Len-Den...</p>
+          <p className="font-bold tracking-widest text-xs uppercase text-subtle">Loading Len-Den...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-200 font-sans pb-24 relative selection:bg-orange-500/30 overflow-x-hidden">
+    <div className="min-h-screen bg-app text-fg font-sans pb-24 relative overflow-x-hidden">
       {/* App Header */}
-      <header className="pt-12 px-6 pb-4 sticky top-0 bg-[#050505]/90 backdrop-blur-xl z-10">
+      <header className="pt-12 px-6 pb-4 sticky top-0 bg-app/90 backdrop-blur-xl z-10">
         <div className="flex justify-between items-center mb-6 relative">
-          <h1 className="text-2xl font-bold tracking-tight text-white absolute left-1/2 transform -translate-x-1/2">Len-Den</h1>
-          {/* placeholder for flex layout */}
-          <div className="w-10 h-10"></div>
-          <button 
+          <h1 className="text-2xl font-bold tracking-tight text-fg absolute left-1/2 transform -translate-x-1/2">Len-Den</h1>
+          <button
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/20 cursor-pointer hover:bg-orange-500/20 transition-colors"
+          >
+            {theme === 'dark' ? (
+              <Sun className="w-5 h-5 text-orange-500" />
+            ) : (
+              <Moon className="w-5 h-5 text-orange-500" />
+            )}
+          </button>
+          <button
             onClick={() => setIsAddOpen(true)}
+            aria-label="Add entry"
             className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/20 cursor-pointer hover:bg-orange-500/20 transition-colors"
           >
             <Plus className="w-5 h-5 text-orange-500" />
@@ -87,13 +99,13 @@ export default function App() {
 
         {/* Summary Metrics */}
         <div className="grid grid-cols-2 gap-2">
-          <div className="bg-[#1a1a1a] p-3 rounded-2xl border border-white/5">
-            <span className="text-[10px] tracking-wider text-slate-500 block mb-1">Vasuli</span>
-            <span className="text-emerald-400 font-semibold text-sm">₹{summary.totalRecover.toFixed(2)}</span>
+          <div className="bg-surface p-3 rounded-2xl border border-hairline">
+            <span className="text-[10px] tracking-wider text-subtle block mb-1">Vasuli</span>
+            <span className="text-emerald-500 dark:text-emerald-400 font-semibold text-sm">₹{summary.totalRecover.toFixed(2)}</span>
           </div>
-          <div className="bg-[#1a1a1a] p-3 rounded-2xl border border-white/5">
-            <span className="text-[10px] tracking-wider text-slate-500 block mb-1">Muft</span>
-            <span className="text-orange-400 font-semibold text-sm">₹{summary.totalGiven.toFixed(2)}</span>
+          <div className="bg-surface p-3 rounded-2xl border border-hairline">
+            <span className="text-[10px] tracking-wider text-subtle block mb-1">Muft</span>
+            <span className="text-orange-500 dark:text-orange-400 font-semibold text-sm">₹{summary.totalGiven.toFixed(2)}</span>
           </div>
         </div>
       </header>
@@ -104,17 +116,17 @@ export default function App() {
         {/* The Tab */}
         <section>
           <div className="flex justify-between items-center mb-3 px-1">
-             <h2 className="text-sm font-medium text-slate-400 flex items-center gap-2">
+             <h2 className="text-sm font-medium text-muted flex items-center gap-2">
                 <span className="text-lg">🤝</span> Udhari
              </h2>
-             <span className="text-[10px] text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full font-bold">
+             <span className="text-[10px] text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full font-bold">
                {tabData.length} OPEN
              </span>
           </div>
           
           <div className="space-y-3">
             {tabData.length === 0 ? (
-              <div className="text-center py-6 text-xs text-slate-500 bg-[#1a1a1a] rounded-2xl border border-white/5">
+              <div className="text-center py-6 text-xs text-subtle bg-surface rounded-2xl border border-hairline">
                 No pending tabs. You're all settled up!
               </div>
             ) : (
@@ -137,14 +149,14 @@ export default function App() {
         {/* On The House */}
         <section>
           <div className="flex items-center gap-2 mb-3 px-1">
-            <h2 className="text-sm font-medium text-slate-400 flex items-center gap-2">
+            <h2 className="text-sm font-medium text-muted flex items-center gap-2">
               <span className="text-lg">🫂</span> Muft
             </h2>
           </div>
           
           <div className="space-y-3">
             {onTheHouseData.length === 0 ? (
-              <div className="text-center py-6 text-xs text-slate-500 bg-[#1a1a1a] rounded-2xl border border-white/5 opacity-80">
+              <div className="text-center py-6 text-xs text-subtle bg-surface rounded-2xl border border-hairline opacity-80">
                 No records here.
               </div>
             ) : (
@@ -167,14 +179,14 @@ export default function App() {
         {/* Archived Section */}
         <section>
           <div className="flex items-center gap-2 mb-3 px-1">
-            <h2 className="text-sm font-medium text-slate-400 flex items-center gap-2">
+            <h2 className="text-sm font-medium text-muted flex items-center gap-2">
               <span className="text-lg">📦</span> Hisaab-Barabar
             </h2>
           </div>
           
           <div className="space-y-3">
             {archivedData.length === 0 ? (
-              <div className="text-center py-6 text-xs text-slate-500 bg-[#1a1a1a] rounded-2xl border border-white/5 opacity-80">
+              <div className="text-center py-6 text-xs text-subtle bg-surface rounded-2xl border border-hairline opacity-80">
                 No archived records.
               </div>
             ) : (
