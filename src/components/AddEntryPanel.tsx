@@ -109,8 +109,8 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                             : "bg-app border-hairline text-muted hover:bg-fg/5 hover:text-fg"
                         }`}
                       >
-                        {cat === "tab" && "Udhari"}
-                        {cat === "on_the_house" && "Muft"}
+                        {cat === "tab" && "Lent"}
+                        {cat === "on_the_house" && "On The House"}
                       </button>
                     ),
                   )}

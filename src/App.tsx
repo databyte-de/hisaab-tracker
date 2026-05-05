@@ -131,11 +131,11 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
         {/* Summary Metrics */}
         <div className="grid grid-cols-2 gap-2">
           <div className="bg-surface p-3 rounded-2xl border border-hairline">
-            <span className="text-[10px] tracking-wider text-subtle block mb-1">Vasuli</span>
+            <span className="text-[10px] tracking-wider text-subtle block mb-1">Owed</span>
             <span className="text-emerald-500 dark:text-emerald-400 font-semibold text-sm">₹{summary.totalRecover.toFixed(2)}</span>
           </div>
           <div className="bg-surface p-3 rounded-2xl border border-hairline">
-            <span className="text-[10px] tracking-wider text-subtle block mb-1">Muft</span>
+            <span className="text-[10px] tracking-wider text-subtle block mb-1">On The House</span>
             <span className="text-orange-500 dark:text-orange-400 font-semibold text-sm">₹{summary.totalGiven.toFixed(2)}</span>
           </div>
         </div>
@@ -148,7 +148,7 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
         <section>
           <div className="flex justify-between items-center mb-3 px-1">
              <h2 className="text-sm font-medium text-muted flex items-center gap-2">
-                <span className="text-lg">🤝</span> Udhari
+                <span className="text-lg">🤝</span> Lent
              </h2>
              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full font-bold">
                {tabData.length} OPEN
@@ -181,7 +181,7 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
         <section>
           <div className="flex items-center gap-2 mb-3 px-1">
             <h2 className="text-sm font-medium text-muted flex items-center gap-2">
-              <span className="text-lg">🫂</span> Muft
+              <span className="text-lg">🫂</span> On The House
             </h2>
           </div>
           
@@ -211,7 +211,7 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
         <section>
           <div className="flex items-center gap-2 mb-3 px-1">
             <h2 className="text-sm font-medium text-muted flex items-center gap-2">
-              <span className="text-lg">📦</span> Hisaab-Barabar
+              <span className="text-lg">📦</span> Settled
             </h2>
           </div>
           
