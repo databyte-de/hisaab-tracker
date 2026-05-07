@@ -10,6 +10,7 @@ import { EditRepaymentPanel } from './components/EditRepaymentPanel';
 import { SignInScreen } from './components/SignInScreen';
 import { Activity, LogOut, Monitor, Moon, Plus, Sun } from 'lucide-react';
 import type { Entry, Repayment } from './types';
+import { formatINR } from './lib/utils';
 
 function groupByPerson(list: Entry[]) {
   const map = new Map<string, Entry[]>();
@@ -132,11 +133,11 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
         <div className="grid grid-cols-2 gap-2">
           <div className="bg-surface p-3 rounded-2xl border border-hairline">
             <span className="text-[10px] tracking-wider text-subtle block mb-1">Owed</span>
-            <span className="text-emerald-500 dark:text-emerald-400 font-semibold text-sm">₹{summary.totalRecover.toFixed(2)}</span>
+            <span className="text-emerald-500 dark:text-emerald-400 font-semibold text-sm">₹{formatINR(summary.totalRecover)}</span>
           </div>
           <div className="bg-surface p-3 rounded-2xl border border-hairline">
             <span className="text-[10px] tracking-wider text-subtle block mb-1">On The House</span>
-            <span className="text-orange-500 dark:text-orange-400 font-semibold text-sm">₹{summary.totalGiven.toFixed(2)}</span>
+            <span className="text-orange-500 dark:text-orange-400 font-semibold text-sm">₹{formatINR(summary.totalGiven)}</span>
           </div>
         </div>
       </header>

@@ -42,6 +42,26 @@ export function breakdownToNote(items: SubItem[]): string {
   return parts.length ? `— ${parts.join(' · ')}` : '';
 }
 
+export function parseBreakdownFromNote(note: string | null | undefined): { cleanNote: string; items: SubItem[] } {
+  if (!note) return { cleanNote: '', items: [] };
+  const lines = note.split('\n');
+  const idx = lines.findIndex((l) => l.trimStart().startsWith('— '));
+  if (idx === -1) return { cleanNote: note, items: [] };
+
+  const breakdownLine = lines[idx].trimStart().slice(2);
+  const items: SubItem[] = breakdownLine.split(' · ').map((part) => {
+    const m = part.match(/^(.*?)\s*₹\s*(-?[\d.]+)\s*$/);
+    return {
+      id: Math.random().toString(36).slice(2),
+      label: m ? m[1].trim() : part.trim(),
+      amount: m ? m[2] : '',
+    };
+  });
+
+  const cleanNote = lines.filter((_, i) => i !== idx).join('\n').trim();
+  return { cleanNote, items };
+}
+
 export function AmountBreakdown({ items, onChange, accent }: Props) {
   const update = (id: string, patch: Partial<SubItem>) => {
     onChange(items.map((i) => (i.id === id ? { ...i, ...patch } : i)));
@@ -76,7 +96,6 @@ export function AmountBreakdown({ items, onChange, accent }: Props) {
             type="number"
             inputMode="decimal"
             step="0.01"
-            min="0"
             value={item.amount}
             onChange={(e) => update(item.id, { amount: e.target.value })}
             placeholder="0.00"

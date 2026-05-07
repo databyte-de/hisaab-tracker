@@ -2,6 +2,7 @@ import React from 'react';
 import { format } from 'date-fns';
 import { Pencil } from 'lucide-react';
 import type { Entry } from '../types';
+import { formatINR } from '../lib/utils';
 
 interface PersonCardProps {
   key?: React.Key;
@@ -77,7 +78,7 @@ export function PersonCard({
     if (isArchived) {
       rightSideContent = (
         <div className="text-right">
-          <p className="text-emerald-600 dark:text-emerald-400 font-bold">₹{totalAmount.toFixed(2)}</p>
+          <p className="text-emerald-600 dark:text-emerald-400 font-bold">₹{formatINR(totalAmount)}</p>
           <p className="text-[10px] text-emerald-600 dark:text-emerald-400 uppercase tracking-widest font-bold">
             Settled
           </p>
@@ -95,24 +96,24 @@ export function PersonCard({
     } else if (balance > 0 && balance < totalAmount) {
       rightSideContent = (
         <div className="text-right">
-          <p className="text-fg font-bold">₹{balance.toFixed(2)}</p>
+          <p className="text-fg font-bold">₹{formatINR(balance)}</p>
           <p className="text-[10px] text-subtle italic">Partially Paid</p>
         </div>
       );
     } else {
       rightSideContent = (
         <div className="text-right">
-          <p className="text-fg font-bold">₹{balance.toFixed(2)}</p>
+          <p className="text-fg font-bold">₹{formatINR(balance)}</p>
         </div>
       );
     }
   } else if (category === "on_the_house") {
     rightSideContent = (
-      <p className="text-orange-500 dark:text-orange-400 font-bold">₹{totalAmount.toFixed(2)}</p>
+      <p className="text-orange-500 dark:text-orange-400 font-bold">₹{formatINR(totalAmount)}</p>
     );
   } else {
     rightSideContent = (
-      <p className="text-sky-500 dark:text-sky-400 font-bold">₹{totalAmount.toFixed(2)}</p>
+      <p className="text-sky-500 dark:text-sky-400 font-bold">₹{formatINR(totalAmount)}</p>
     );
   }
 
@@ -147,7 +148,7 @@ export function PersonCard({
           {category === "tab" ? (
             <div className="flex justify-between items-center mb-4">
               <p className="text-xs text-muted">
-                Total Balance: ₹{balance.toFixed(2)}
+                Total Balance: ₹{formatINR(balance)}
               </p>
               <div className="flex gap-2">
                 {balance > 0 && !isArchived && (
@@ -188,7 +189,7 @@ export function PersonCard({
           ) : (
             <div className="flex justify-between items-center mb-4">
               <p className="text-xs text-muted">
-                Total Amount: ₹{totalAmount.toFixed(2)}
+                Total Amount: ₹{formatINR(totalAmount)}
               </p>
               <div className="flex gap-2">
                 {isArchived && (
@@ -237,7 +238,7 @@ export function PersonCard({
                       </div>
                       <div className="text-right">
                         <p className="text-sm font-bold text-fg">
-                          ₹{entry.amount.toFixed(2)}
+                          ₹{formatINR(entry.amount)}
                         </p>
                       </div>
                     </div>
@@ -279,7 +280,7 @@ export function PersonCard({
                     </button>
                   </div>
                   <span className="text-emerald-600 dark:text-emerald-400 font-bold">
-                    +₹{rep.amount.toFixed(2)}
+                    +₹{formatINR(rep.amount)}
                   </span>
                 </div>
               ))}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Calculator } from 'lucide-react';
 import type { Entry } from '../types';
-import { AmountBreakdown, breakdownToNote, breakdownTotal, newSubItem, type SubItem } from './AmountBreakdown';
+import { AmountBreakdown, breakdownToNote, breakdownTotal, newSubItem, parseBreakdownFromNote, type SubItem } from './AmountBreakdown';
 
 interface EditEntryPanelProps {
   entry: Entry | null;
@@ -28,13 +28,14 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
 
   useEffect(() => {
     if (entry) {
+      const { cleanNote, items } = parseBreakdownFromNote(entry.note);
       setPersonName(entry.person_name);
       setPurpose(entry.purpose);
       setAmount(entry.amount.toString());
-      setNote(entry.note || '');
+      setNote(cleanNote);
       setDate(entry.date || '');
-      setBreakdownOpen(false);
-      setSubItems([]);
+      setBreakdownOpen(items.length > 0);
+      setSubItems(items);
     }
   }, [entry]);
 
@@ -159,7 +160,8 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
                         const next = !breakdownOpen;
                         setBreakdownOpen(next);
                         if (next && subItems.length === 0) {
-                          setSubItems([newSubItem(), newSubItem()]);
+                          const seeded: SubItem = { ...newSubItem(), amount: amount || '' };
+                          setSubItems([seeded, newSubItem()]);
                         }
                       }}
                       aria-label="Toggle breakdown calculator"

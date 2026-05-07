@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { formatINR } from '../lib/utils';
 
 interface RepaymentPanelProps {
   data: { personName: string; balance: number } | null;
@@ -67,7 +68,7 @@ export function RepaymentPanel({ data, onClose, onSubmit }: RepaymentPanelProps)
               <p className="text-[10px] uppercase tracking-widest text-subtle mb-1">Current Balance due</p>
               <div className="flex justify-between items-center">
                  <p className="text-sm font-medium text-fg">{data.personName}</p>
-                 <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">₹{data.balance.toFixed(2)}</p>
+                 <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">₹{formatINR(data.balance)}</p>
               </div>
             </div>
 
