@@ -21,6 +21,17 @@ function groupByPerson(list: Entry[]) {
   return Array.from(map.entries()).map(([personName, entries]) => ({ personName, entries }));
 }
 
+function personBalance(entries: Entry[]) {
+  return entries.reduce((sum, e) => {
+    const repaid = e.repayments?.reduce((r, p) => r + p.amount_received, 0) || 0;
+    return sum + (e.amount - repaid);
+  }, 0);
+}
+
+function personTotal(entries: Entry[]) {
+  return entries.reduce((sum, e) => sum + e.amount, 0);
+}
+
 export default function App() {
   const { user, loading: authLoading, signInWithGoogle, signOut } = useAuth();
 
@@ -77,9 +88,9 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
     const totalGiven = onHouseEntries.reduce((sum, e) => sum + e.amount, 0);
 
     return {
-      tabData: groupByPerson(tabEntries),
-      onTheHouseData: groupByPerson(onHouseEntries),
-      archivedData: groupByPerson(archivedEntries),
+      tabData: groupByPerson(tabEntries).sort((a, b) => personBalance(b.entries) - personBalance(a.entries)),
+      onTheHouseData: groupByPerson(onHouseEntries).sort((a, b) => personTotal(b.entries) - personTotal(a.entries)),
+      archivedData: groupByPerson(archivedEntries).sort((a, b) => personTotal(b.entries) - personTotal(a.entries)),
       summary: { totalRecover, totalGiven }
     };
   }, [entries]);
