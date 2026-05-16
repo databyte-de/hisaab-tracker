@@ -1,4 +1,3 @@
-import { format } from 'date-fns';
 import type { Entry } from '../types';
 import { formatINR } from './utils';
 
@@ -19,9 +18,6 @@ interface BuildShareMessageArgs {
   isArchived: boolean;
 }
 
-const formatDate = (d: string | null): string =>
-  d ? format(new Date(d), 'dd MMM yyyy') : '';
-
 function sortByDateAsc<T extends { date: string | null }>(arr: T[]): T[] {
   return [...arr].sort(
     (a, b) => new Date(a.date || 0).getTime() - new Date(b.date || 0).getTime(),
@@ -37,50 +33,43 @@ export function buildShareMessage({
   allRepaymentsGrouped,
   isArchived,
 }: BuildShareMessageArgs): string {
-  const today = format(new Date(), 'dd MMM yyyy');
   const sortedEntries = sortByDateAsc(entries);
   const sortedRepayments = sortByDateAsc(allRepaymentsGrouped);
 
   const entriesBlock = sortedEntries
-    .map((e) => `• ${formatDate(e.date)} — ${e.purpose} — ₹${formatINR(e.amount)}`)
+    .map((e) => `• ${e.purpose} — ₹${formatINR(e.amount)}`)
     .join('\n');
 
   const repaymentsBlock = sortedRepayments
-    .map((r) => `• ${formatDate(r.date)} — ₹${formatINR(r.amount)}`)
+    .map((r) => `• ₹${formatINR(r.amount)}`)
     .join('\n');
 
   const hasRepayments = sortedRepayments.length > 0;
 
   if (isArchived) {
     const lines = [
-      `Hi ${personName},`,
+      'Hisaab-Barabar ✅',
       '',
-      `We're all settled — Hisaab-Barabar ✅`,
-      '',
-      'Entries:',
+      'Purpose - Amount',
       entriesBlock,
       `Total: ₹${formatINR(totalAmount)}`,
     ];
     if (hasRepayments) {
-      lines.push('', 'Repayments:', repaymentsBlock, `Total repaid: ₹${formatINR(totalRepaid)}`);
+      lines.push('', 'Repayments received:', repaymentsBlock, `Total: ₹${formatINR(totalRepaid)}`);
     }
     lines.push('', '— Mohammad Maaz');
     return lines.join('\n');
   }
 
   const lines = [
-    `Hi ${personName},`,
-    '',
-    `Here's our hisaab summary (as of ${today}):`,
-    '',
-    'Entries:',
+    'Purpose - Amount',
     entriesBlock,
     `Total: ₹${formatINR(totalAmount)}`,
   ];
   if (hasRepayments) {
-    lines.push('', 'Repayments received:', repaymentsBlock, `Total repaid: ₹${formatINR(totalRepaid)}`);
+    lines.push('', 'Repayments received:', repaymentsBlock, `Total: ₹${formatINR(totalRepaid)}`);
   }
-  lines.push('', `Balance owed: ₹${formatINR(balance)}`, '', '— Mohammad Maaz');
+  lines.push('', `Balance: ₹${formatINR(balance)}`, '', '— Mohammad Maaz');
   return lines.join('\n');
 }
 
