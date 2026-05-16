@@ -1,8 +1,9 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { Pencil } from 'lucide-react';
+import { Pencil, Share2 } from 'lucide-react';
 import type { Entry } from '../types';
 import { formatINR } from '../lib/utils';
+import { buildShareMessage, shareHisaab } from '../lib/shareMessage';
 
 interface PersonCardProps {
   key?: React.Key;
@@ -151,6 +152,25 @@ export function PersonCard({
                 Total Balance: ₹{formatINR(balance)}
               </p>
               <div className="flex gap-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const msg = buildShareMessage({
+                      personName,
+                      entries,
+                      totalAmount,
+                      totalRepaid,
+                      balance,
+                      allRepaymentsGrouped,
+                      isArchived: !!isArchived,
+                    });
+                    shareHisaab(msg);
+                  }}
+                  className="text-[10px] font-bold tracking-wider px-3 py-1.5 rounded-lg bg-fg/5 text-muted border border-hairline hover:bg-fg/10 hover:text-fg transition-colors inline-flex items-center gap-1"
+                  title="Share via WhatsApp"
+                >
+                  <Share2 className="w-3 h-3" /> SHARE
+                </button>
                 {balance > 0 && !isArchived && (
                   <button
                     onClick={(e) => {
