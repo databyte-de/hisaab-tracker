@@ -1,5 +1,6 @@
 import type { Entry } from '../types';
 import { formatINR } from './utils';
+import { parseBreakdownFromNote } from '../components/AmountBreakdown';
 
 interface RepaymentGroup {
   date: string | null;
@@ -37,7 +38,17 @@ export function buildShareMessage({
   const sortedRepayments = sortByDateAsc(allRepaymentsGrouped);
 
   const entriesBlock = sortedEntries
-    .map((e) => `• ${e.purpose} — ₹${formatINR(e.amount)}`)
+    .flatMap((e) => {
+      const { items } = parseBreakdownFromNote(e.note);
+      if (items.length > 0) {
+        return items.map((item) => {
+          const amt = parseFloat(item.amount) || 0;
+          const label = item.label.trim() || 'Item';
+          return `• ${label} — ₹${formatINR(amt)}`;
+        });
+      }
+      return [`• ${e.purpose} — ₹${formatINR(e.amount)}`];
+    })
     .join('\n');
 
   const repaymentsBlock = sortedRepayments
