@@ -51,7 +51,7 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
         : note || null;
       await onSubmit(entry.id, {
         person_name: personName,
-        purpose,
+        purpose: entry.category === 'personal' ? personName : purpose,
         amount: parseFloat(effectiveAmount),
         note: finalNote || null,
         date: date || null,
@@ -134,19 +134,21 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
                 </datalist>
               </div>
 
-              <div>
-                <label className="block text-[10px] uppercase tracking-widest font-semibold text-subtle mb-3">
-                  Purpose
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={purpose}
-                  onChange={(e) => setPurpose(e.target.value)}
-                  placeholder="e.g. Dinner, Uber, Rent"
-                  className={inputClass}
-                />
-              </div>
+              {entry.category !== 'personal' && (
+                <div>
+                  <label className="block text-[10px] uppercase tracking-widest font-semibold text-subtle mb-3">
+                    Purpose
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={purpose}
+                    onChange={(e) => setPurpose(e.target.value)}
+                    placeholder="e.g. Dinner, Uber, Rent"
+                    className={inputClass}
+                  />
+                </div>
+              )}
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="min-w-0">

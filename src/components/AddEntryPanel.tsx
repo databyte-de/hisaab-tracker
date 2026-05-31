@@ -36,7 +36,7 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
       await onSubmit({
         category,
         person_name: personName,
-        purpose,
+        purpose: category === 'personal' ? personName : purpose,
         amount: parseFloat(effectiveAmount),
         note: finalNote || null,
         date: date || null,
@@ -136,19 +136,21 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                 </datalist>
               </div>
 
-              <div>
-                <label className="block text-[10px] uppercase tracking-widest font-semibold text-subtle mb-3">
-                  Purpose
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={purpose}
-                  onChange={(e) => setPurpose(e.target.value)}
-                  placeholder="e.g. Dinner, Uber, Rent"
-                  className={inputClass}
-                />
-              </div>
+              {category !== 'personal' && (
+                <div>
+                  <label className="block text-[10px] uppercase tracking-widest font-semibold text-subtle mb-3">
+                    Purpose
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={purpose}
+                    onChange={(e) => setPurpose(e.target.value)}
+                    placeholder="e.g. Dinner, Uber, Rent"
+                    className={inputClass}
+                  />
+                </div>
+              )}
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="min-w-0">

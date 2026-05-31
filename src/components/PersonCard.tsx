@@ -135,10 +135,16 @@ export function PersonCard({
         <div>
           <p className="text-fg font-medium">{personName}</p>
           <p className="text-xs text-subtle tracking-wide mt-1">
-            {entries.length === 1
-              ? entries[0].purpose
-              : `${entries.length} items`}{" "}
-            <span className="opacity-50">•</span> {formattedDate}
+            {category === "personal" && entries.length === 1 ? (
+              formattedDate
+            ) : (
+              <>
+                {entries.length === 1
+                  ? entries[0].purpose
+                  : `${entries.length} items`}{" "}
+                <span className="opacity-50">•</span> {formattedDate}
+              </>
+            )}
           </p>
         </div>
         {rightSideContent}
