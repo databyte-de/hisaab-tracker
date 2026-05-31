@@ -1,4 +1,4 @@
-export type Category = "tab" | "on_the_house";
+export type Category = "tab" | "on_the_house" | "personal";
 
 export interface Entry {
   id: string;

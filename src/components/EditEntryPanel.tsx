@@ -118,7 +118,7 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
             <form onSubmit={handleSubmit} className="space-y-6 pb-12">
               <div>
                 <label className="block text-[10px] uppercase tracking-widest font-semibold text-subtle mb-3">
-                  Person Name
+                  {entry.category === 'personal' ? 'Title' : 'Person Name'}
                 </label>
                 <input
                   type="text"
@@ -126,7 +126,7 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
                   list="edit-person-names"
                   value={personName}
                   onChange={(e) => setPersonName(e.target.value)}
-                  placeholder="e.g. Alex"
+                  placeholder={entry.category === 'personal' ? 'e.g. Groceries, Fuel' : 'e.g. Alex'}
                   className={inputClass}
                 />
                 <datalist id="edit-person-names">

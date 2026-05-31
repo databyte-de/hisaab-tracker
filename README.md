@@ -58,7 +58,7 @@ If you fork this and want to point it at your own Supabase project, you need to 
 ```sql
 create table entries (
   id uuid primary key default gen_random_uuid(),
-  category text not null check (category in ('tab', 'on_the_house')),
+  category text not null check (category in ('tab', 'on_the_house', 'personal')),
   person_name text not null,
   purpose text not null,
   amount numeric not null,

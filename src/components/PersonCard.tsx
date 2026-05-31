@@ -9,7 +9,7 @@ interface PersonCardProps {
   key?: React.Key;
   personName: string;
   entries: Entry[];
-  category: "tab" | "on_the_house";
+  category: "tab" | "on_the_house" | "personal";
   onRecordRepayment: (personName: string, balance: number) => void;
   onMarkSettled: (ids: string[], settled: boolean) => void;
   onEditEntry: (entry: Entry) => void;

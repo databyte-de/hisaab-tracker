@@ -96,8 +96,8 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                 <label className="block text-[10px] uppercase tracking-widest font-semibold text-subtle mb-3">
                   Category
                 </label>
-                <div className="grid grid-cols-2 gap-2">
-                  {(["tab", "on_the_house"] as Category[]).map(
+                <div className="grid grid-cols-3 gap-2">
+                  {(["tab", "on_the_house", "personal"] as Category[]).map(
                     (cat) => (
                       <button
                         key={cat}
@@ -111,6 +111,7 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                       >
                         {cat === "tab" && "Lent"}
                         {cat === "on_the_house" && "On The House"}
+                        {cat === "personal" && "Expenses"}
                       </button>
                     ),
                   )}
@@ -119,7 +120,7 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
 
               <div>
                 <label className="block text-[10px] uppercase tracking-widest font-semibold text-subtle mb-3">
-                  Person Name
+                  {category === 'personal' ? 'Title' : 'Person Name'}
                 </label>
                 <input
                   type="text"
@@ -127,7 +128,7 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                   list="add-person-names"
                   value={personName}
                   onChange={(e) => setPersonName(e.target.value)}
-                  placeholder="e.g. Alex"
+                  placeholder={category === 'personal' ? 'e.g. Groceries, Fuel' : 'e.g. Alex'}
                   className={inputClass}
                 />
                 <datalist id="add-person-names">

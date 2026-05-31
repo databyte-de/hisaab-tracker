@@ -71,13 +71,14 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
     };
   }, [entries]);
 
-  const { tabData, onTheHouseData, archivedData, summary } = useMemo(() => {
+  const { tabData, onTheHouseData, personalData, archivedData, summary } = useMemo(() => {
     // Only show active (un-archived) entries
     const activeEntries = entries.filter(e => !e.is_settled);
     const archivedEntries = entries.filter(e => e.is_settled);
     
     const tabEntries = activeEntries.filter((e) => e.category === 'tab');
     const onHouseEntries = activeEntries.filter((e) => e.category === 'on_the_house');
+    const personalEntries = activeEntries.filter((e) => e.category === 'personal');
 
     let totalRecover = 0;
     tabEntries.forEach(e => {
@@ -86,12 +87,14 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
     });
 
     const totalGiven = onHouseEntries.reduce((sum, e) => sum + e.amount, 0);
+    const totalSpent = personalEntries.reduce((sum, e) => sum + e.amount, 0);
 
     return {
       tabData: groupByPerson(tabEntries).sort((a, b) => personBalance(b.entries) - personBalance(a.entries)),
       onTheHouseData: groupByPerson(onHouseEntries).sort((a, b) => personTotal(b.entries) - personTotal(a.entries)),
+      personalData: groupByPerson(personalEntries).sort((a, b) => personTotal(b.entries) - personTotal(a.entries)),
       archivedData: groupByPerson(archivedEntries).sort((a, b) => personTotal(b.entries) - personTotal(a.entries)),
-      summary: { totalRecover, totalGiven }
+      summary: { totalRecover, totalGiven, totalSpent }
     };
   }, [entries]);
 
@@ -141,7 +144,7 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
         </div>
 
         {/* Summary Metrics */}
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-3 gap-2">
           <div className="bg-surface p-3 rounded-2xl border border-hairline">
             <span className="text-[10px] tracking-wider text-subtle block mb-1">Owed</span>
             <span className="text-emerald-500 dark:text-emerald-400 font-semibold text-sm">₹{formatINR(summary.totalRecover)}</span>
@@ -150,12 +153,46 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
             <span className="text-[10px] tracking-wider text-subtle block mb-1">On The House</span>
             <span className="text-orange-500 dark:text-orange-400 font-semibold text-sm">₹{formatINR(summary.totalGiven)}</span>
           </div>
+          <div className="bg-surface p-3 rounded-2xl border border-hairline">
+            <span className="text-[10px] tracking-wider text-subtle block mb-1">Spent</span>
+            <span className="text-sky-500 dark:text-sky-400 font-semibold text-sm">₹{formatINR(summary.totalSpent)}</span>
+          </div>
         </div>
       </header>
 
       {/* Main Content / Categories */}
       <main className="px-6 mt-6 space-y-6">
-        
+
+        {/* Personal Expenses */}
+        <section>
+          <div className="flex items-center gap-2 mb-3 px-1">
+            <h2 className="text-sm font-medium text-muted flex items-center gap-2">
+              <span className="text-lg">💸</span> Expenses
+            </h2>
+          </div>
+
+          <div className="space-y-3">
+            {personalData.length === 0 ? (
+              <div className="text-center py-6 text-xs text-subtle bg-surface rounded-2xl border border-hairline opacity-80">
+                No expenses logged.
+              </div>
+            ) : (
+              personalData.map(({ personName, entries }) => (
+                <PersonCard
+                  key={`personal-${personName}`}
+                  personName={personName}
+                  entries={entries}
+                  category="personal"
+                  onRecordRepayment={() => {}}
+                  onMarkSettled={() => {}}
+                  onEditEntry={(entry) => setEditingEntry(entry)}
+                  onEditRepayment={() => {}}
+                />
+              ))
+            )}
+          </div>
+        </section>
+
         {/* The Tab */}
         <section>
           <div className="flex justify-between items-center mb-3 px-1">
