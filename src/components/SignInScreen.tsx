@@ -14,7 +14,7 @@ export function SignInScreen({ onSignIn }: SignInScreenProps) {
 
         <h1 className="text-3xl font-bold tracking-tight mb-2">Len-Den</h1>
         <p className="text-sm text-muted mb-10 leading-relaxed">
-          Udhari, Muft aur Hisaab — sab kuch ek jagah.
+          Udhari, Kharcha aur Hisaab — sab kuch ek jagah.
         </p>
 
         <button

@@ -71,13 +71,12 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
     };
   }, [entries]);
 
-  const { tabData, onTheHouseData, personalData, archivedData, summary } = useMemo(() => {
+  const { tabData, personalData, archivedData, summary } = useMemo(() => {
     // Only show active (un-archived) entries
     const activeEntries = entries.filter(e => !e.is_settled);
     const archivedEntries = entries.filter(e => e.is_settled);
     
     const tabEntries = activeEntries.filter((e) => e.category === 'tab');
-    const onHouseEntries = activeEntries.filter((e) => e.category === 'on_the_house');
     const personalEntries = activeEntries.filter((e) => e.category === 'personal');
 
     let totalRecover = 0;
@@ -86,15 +85,13 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
       totalRecover += (e.amount - repaid);
     });
 
-    const totalGiven = onHouseEntries.reduce((sum, e) => sum + e.amount, 0);
     const totalSpent = personalEntries.reduce((sum, e) => sum + e.amount, 0);
 
     return {
       tabData: groupByPerson(tabEntries).sort((a, b) => personBalance(b.entries) - personBalance(a.entries)),
-      onTheHouseData: groupByPerson(onHouseEntries).sort((a, b) => personTotal(b.entries) - personTotal(a.entries)),
       personalData: groupByPerson(personalEntries).sort((a, b) => personTotal(b.entries) - personTotal(a.entries)),
       archivedData: groupByPerson(archivedEntries).sort((a, b) => personTotal(b.entries) - personTotal(a.entries)),
-      summary: { totalRecover, totalGiven, totalSpent }
+      summary: { totalRecover, totalSpent }
     };
   }, [entries]);
 
@@ -144,14 +141,10 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
         </div>
 
         {/* Summary Metrics */}
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           <div className="bg-surface p-3 rounded-2xl border border-hairline">
             <span className="text-[10px] tracking-wider text-subtle block mb-1">Owed</span>
             <span className="text-emerald-500 dark:text-emerald-400 font-semibold text-sm">₹{formatINR(summary.totalRecover)}</span>
-          </div>
-          <div className="bg-surface p-3 rounded-2xl border border-hairline">
-            <span className="text-[10px] tracking-wider text-subtle block mb-1">On The House</span>
-            <span className="text-orange-500 dark:text-orange-400 font-semibold text-sm">₹{formatINR(summary.totalGiven)}</span>
           </div>
           <div className="bg-surface p-3 rounded-2xl border border-hairline">
             <span className="text-[10px] tracking-wider text-subtle block mb-1">Spent</span>
@@ -220,36 +213,6 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
                   onMarkSettled={markPersonSettled}
                   onEditEntry={(entry) => setEditingEntry(entry)}
                   onEditRepayment={(rep) => setEditingRepayment(rep)}
-                />
-              ))
-            )}
-          </div>
-        </section>
-
-        {/* On The House */}
-        <section>
-          <div className="flex items-center gap-2 mb-3 px-1">
-            <h2 className="text-sm font-medium text-muted flex items-center gap-2">
-              <span className="text-lg">🫂</span> On The House
-            </h2>
-          </div>
-          
-          <div className="space-y-3">
-            {onTheHouseData.length === 0 ? (
-              <div className="text-center py-6 text-xs text-subtle bg-surface rounded-2xl border border-hairline opacity-80">
-                No records here.
-              </div>
-            ) : (
-              onTheHouseData.map(({ personName, entries }) => (
-                <PersonCard
-                  key={`house-${personName}`}
-                  personName={personName}
-                  entries={entries}
-                  category="on_the_house"
-                  onRecordRepayment={() => {}}
-                  onMarkSettled={markPersonSettled}
-                  onEditEntry={(entry) => setEditingEntry(entry)}
-                  onEditRepayment={() => {}}
                 />
               ))
             )}

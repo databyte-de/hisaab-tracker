@@ -9,7 +9,7 @@ interface PersonCardProps {
   key?: React.Key;
   personName: string;
   entries: Entry[];
-  category: "tab" | "on_the_house" | "personal";
+  category: "tab" | "personal";
   onRecordRepayment: (personName: string, balance: number) => void;
   onMarkSettled: (ids: string[], settled: boolean) => void;
   onEditEntry: (entry: Entry) => void;
@@ -108,10 +108,6 @@ export function PersonCard({
         </div>
       );
     }
-  } else if (category === "on_the_house") {
-    rightSideContent = (
-      <p className="text-orange-500 dark:text-orange-400 font-bold">₹{formatINR(totalAmount)}</p>
-    );
   } else {
     rightSideContent = (
       <p className="text-sky-500 dark:text-sky-400 font-bold">₹{formatINR(totalAmount)}</p>
@@ -121,13 +117,7 @@ export function PersonCard({
   const [expanded, setExpanded] = React.useState(false);
 
   return (
-    <div
-      className={`bg-surface rounded-2xl border ${
-        category === "on_the_house"
-          ? "border-hairline opacity-80"
-          : "border-hairline"
-      } overflow-hidden transition-all`}
-    >
+    <div className="bg-surface rounded-2xl border border-hairline overflow-hidden transition-all">
       <div
         className="flex justify-between items-center p-4 cursor-pointer hover:bg-fg/5 transition-colors"
         onClick={() => setExpanded(!expanded)}

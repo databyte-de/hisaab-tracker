@@ -10,7 +10,7 @@ A mobile-first web app for tracking dues, lent money, and miscellaneous expenses
 ## Features
 
 - **Udhari** — track money you've lent (with partial repayments and history)
-- **Muft** — track money given freely (no repayment expected)
+- **Expenses** — log your own personal spending (no sharing or settling)
 - **Hisaab-Barabar** — archive of settled records
 - Per-user private data (Google OAuth + Supabase RLS)
 - Light & dark theme with system preference detection
@@ -58,7 +58,7 @@ If you fork this and want to point it at your own Supabase project, you need to 
 ```sql
 create table entries (
   id uuid primary key default gen_random_uuid(),
-  category text not null check (category in ('tab', 'on_the_house', 'personal')),
+  category text not null check (category in ('tab', 'personal')),
   person_name text not null,
   purpose text not null,
   amount numeric not null,
