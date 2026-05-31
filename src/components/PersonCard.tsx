@@ -173,7 +173,7 @@ export function PersonCard({
                       e.stopPropagation();
                       onRecordRepayment(personName, balance);
                     }}
-                    className="text-[10px] font-bold tracking-wider px-3 py-1.5 rounded-lg bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 hover:bg-orange-500 hover:text-white transition-colors"
+                    className="text-[10px] font-bold tracking-wider px-3 py-1.5 rounded-lg bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20 hover:bg-brand-500 hover:text-white transition-colors"
                   >
                     + ADD PAYMENT
                   </button>

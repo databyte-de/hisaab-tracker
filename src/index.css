@@ -13,26 +13,36 @@
   --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-subtle: var(--subtle);
+
+  /* Splitwise-inspired brand teal */
+  --color-brand-50: #ecfdf7;
+  --color-brand-100: #d3f6ec;
+  --color-brand-200: #ace4d6;
+  --color-brand-300: #6ddabd;
+  --color-brand-400: #34cdaa;
+  --color-brand-500: #1cc29f;
+  --color-brand-600: #137863;
+  --color-brand-700: #0c3c32;
 }
 
 :root {
-  --app: #f8f5f0;
+  --app: #f6f7f8;
   --surface: #ffffff;
-  --surface-2: #fbf7f0;
-  --hairline: rgba(60, 40, 20, 0.10);
-  --fg: #2a201a;
-  --muted: #6b5d52;
-  --subtle: #9a8e83;
+  --surface-2: #eef1f1;
+  --hairline: rgba(40, 70, 62, 0.12);
+  --fg: #2b3331;
+  --muted: #5c6a66;
+  --subtle: #93a09b;
 }
 
 .dark {
-  --app: #15120f;
-  --surface: #221e1a;
-  --surface-2: #2d2824;
-  --hairline: rgba(255, 235, 210, 0.12);
-  --fg: #f3eee5;
-  --muted: #c8bdb0;
-  --subtle: #a59a8d;
+  --app: #0f1614;
+  --surface: #18211e;
+  --surface-2: #222d29;
+  --hairline: rgba(172, 228, 214, 0.12);
+  --fg: #eef3f1;
+  --muted: #b1c0bb;
+  --subtle: #84938d;
 }
 
 @layer base {
@@ -43,6 +53,6 @@
     @apply bg-app text-fg font-sans antialiased;
   }
   ::selection {
-    @apply bg-orange-500/30;
+    @apply bg-brand-500/30;
   }
 }

@@ -3,7 +3,7 @@ import { Plus, X } from 'lucide-react';
 
 export type SubItem = { id: string; label: string; amount: string };
 
-type Accent = 'orange' | 'sky' | 'emerald';
+type Accent = 'brand' | 'sky' | 'emerald';
 
 interface Props {
   items: SubItem[];
@@ -12,13 +12,13 @@ interface Props {
 }
 
 const accentRing: Record<Accent, string> = {
-  orange: 'focus:border-orange-500 focus:ring-orange-500',
+  brand: 'focus:border-brand-500 focus:ring-brand-500',
   sky: 'focus:border-sky-500 focus:ring-sky-500',
   emerald: 'focus:border-emerald-500 focus:ring-emerald-500',
 };
 
 const accentText: Record<Accent, string> = {
-  orange: 'text-orange-600 dark:text-orange-400 hover:text-orange-500 border-orange-500/30 bg-orange-500/10',
+  brand: 'text-brand-600 dark:text-brand-400 hover:text-brand-500 border-brand-500/30 bg-brand-500/10',
   sky: 'text-sky-600 dark:text-sky-400 hover:text-sky-500 border-sky-500/30 bg-sky-500/10',
   emerald: 'text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 border-emerald-500/30 bg-emerald-500/10',
 };

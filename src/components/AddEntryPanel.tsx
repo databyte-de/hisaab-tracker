@@ -58,7 +58,7 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
     }
   };
 
-  const inputClass = "w-full bg-app border border-hairline rounded-2xl px-5 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500";
+  const inputClass = "w-full bg-app border border-hairline rounded-2xl px-5 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500";
 
   return (
     <AnimatePresence>
@@ -105,7 +105,7 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                         onClick={() => setCategory(cat)}
                         className={`p-3 text-[11px] rounded-2xl border text-center font-bold tracking-wide transition-all ${
                           category === cat
-                            ? "bg-orange-500 border-orange-400 text-white shadow-[0_0_15px_rgba(249,115,22,0.3)] shadow-inner"
+                            ? "bg-brand-500 border-brand-400 text-white shadow-[0_0_15px_rgba(28,194,159,0.3)] shadow-inner"
                             : "bg-app border-hairline text-muted hover:bg-fg/5 hover:text-fg"
                         }`}
                       >
@@ -168,7 +168,7 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                       }}
                       aria-label="Toggle breakdown calculator"
                       className={`flex items-center gap-1 text-[10px] uppercase tracking-widest font-semibold transition-colors ${
-                        breakdownOpen ? 'text-orange-600 dark:text-orange-400' : 'text-subtle hover:text-orange-600 dark:hover:text-orange-400'
+                        breakdownOpen ? 'text-brand-600 dark:text-brand-400' : 'text-subtle hover:text-brand-600 dark:hover:text-brand-400'
                       }`}
                     >
                       <Calculator className="w-3.5 h-3.5" />
@@ -184,7 +184,7 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                     value={effectiveAmount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
-                    className={`w-full min-w-0 bg-app border border-hairline rounded-2xl px-3 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-bold ${
+                    className={`w-full min-w-0 bg-app border border-hairline rounded-2xl px-3 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-bold ${
                       breakdownOpen ? 'opacity-80 cursor-not-allowed' : ''
                     }`}
                   />
@@ -198,7 +198,7 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                       <button
                         type="button"
                         onClick={() => setDate('')}
-                        className="text-[10px] uppercase tracking-widest font-semibold text-orange-600 dark:text-orange-400 hover:text-orange-500"
+                        className="text-[10px] uppercase tracking-widest font-semibold text-brand-600 dark:text-brand-400 hover:text-brand-500"
                       >
                         Clear
                       </button>
@@ -208,13 +208,13 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full min-w-0 bg-app border border-hairline rounded-2xl px-3 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 dark:[&::-webkit-calendar-picker-indicator]:invert"
+                    className="w-full min-w-0 bg-app border border-hairline rounded-2xl px-3 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 dark:[&::-webkit-calendar-picker-indicator]:invert"
                   />
                 </div>
               </div>
 
               {breakdownOpen && (
-                <AmountBreakdown items={subItems} onChange={setSubItems} accent="orange" />
+                <AmountBreakdown items={subItems} onChange={setSubItems} accent="brand" />
               )}
 
               <div>
@@ -233,7 +233,7 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-orange-500 hover:bg-orange-400 text-white font-bold tracking-widest uppercase text-sm rounded-2xl py-5 mt-4 transition-colors disabled:opacity-50 shadow-md dark:shadow-[0_10px_30px_rgba(249,115,22,0.3)]"
+                className="w-full bg-brand-500 hover:bg-brand-400 text-white font-bold tracking-widest uppercase text-sm rounded-2xl py-5 mt-4 transition-colors disabled:opacity-50 shadow-md dark:shadow-[0_10px_30px_rgba(28,194,159,0.3)]"
               >
                 {submitting ? "Saving..." : "Save Record"}
               </button>

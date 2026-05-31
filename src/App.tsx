@@ -38,8 +38,8 @@ export default function App() {
   if (authLoading) {
     return (
       <div className="min-h-screen bg-app flex items-center justify-center">
-        <div className="flex flex-col items-center animate-pulse text-orange-500">
-          <Activity className="w-8 h-8 mb-4 border border-orange-500 rounded p-1" />
+        <div className="flex flex-col items-center animate-pulse text-brand-500">
+          <Activity className="w-8 h-8 mb-4 border border-brand-500 rounded p-1" />
           <p className="font-bold tracking-widest text-xs uppercase text-subtle">Loading...</p>
         </div>
       </div>
@@ -98,8 +98,8 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
   if (loading && entries.length === 0) {
     return (
       <div className="min-h-screen bg-app flex items-center justify-center">
-        <div className="flex flex-col items-center animate-pulse text-orange-500">
-          <Activity className="w-8 h-8 mb-4 border border-orange-500 rounded p-1" />
+        <div className="flex flex-col items-center animate-pulse text-brand-500">
+          <Activity className="w-8 h-8 mb-4 border border-brand-500 rounded p-1" />
           <p className="font-bold tracking-widest text-xs uppercase text-subtle">Loading Len-Den...</p>
         </div>
       </div>
@@ -116,11 +116,11 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
             onClick={cycleTheme}
             aria-label={`Theme: ${themeMode}. Click to change.`}
             title={`Theme: ${themeMode}`}
-            className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/20 cursor-pointer hover:bg-orange-500/20 transition-colors"
+            className="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center border border-brand-500/20 cursor-pointer hover:bg-brand-500/20 transition-colors"
           >
-            {themeMode === 'auto' && <Monitor className="w-5 h-5 text-orange-500" />}
-            {themeMode === 'light' && <Sun className="w-5 h-5 text-orange-500" />}
-            {themeMode === 'dark' && <Moon className="w-5 h-5 text-orange-500" />}
+            {themeMode === 'auto' && <Monitor className="w-5 h-5 text-brand-500" />}
+            {themeMode === 'light' && <Sun className="w-5 h-5 text-brand-500" />}
+            {themeMode === 'dark' && <Moon className="w-5 h-5 text-brand-500" />}
           </button>
           <div className="flex gap-2">
             <button
@@ -133,9 +133,9 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
             <button
               onClick={() => setIsAddOpen(true)}
               aria-label="Add entry"
-              className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/20 cursor-pointer hover:bg-orange-500/20 transition-colors"
+              className="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center border border-brand-500/20 cursor-pointer hover:bg-brand-500/20 transition-colors"
             >
-              <Plus className="w-5 h-5 text-orange-500" />
+              <Plus className="w-5 h-5 text-brand-500" />
             </button>
           </div>
         </div>

@@ -82,7 +82,7 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
 
   if (!entry) return null;
 
-  const inputClass = "w-full bg-app border border-hairline rounded-2xl px-5 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500";
+  const inputClass = "w-full bg-app border border-hairline rounded-2xl px-5 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500";
 
   return (
     <AnimatePresence>
@@ -168,7 +168,7 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
                       }}
                       aria-label="Toggle breakdown calculator"
                       className={`flex items-center gap-1 text-[10px] uppercase tracking-widest font-semibold transition-colors ${
-                        breakdownOpen ? 'text-sky-600 dark:text-sky-400' : 'text-subtle hover:text-sky-600 dark:hover:text-sky-400'
+                        breakdownOpen ? 'text-brand-600 dark:text-brand-400' : 'text-subtle hover:text-brand-600 dark:hover:text-brand-400'
                       }`}
                     >
                       <Calculator className="w-3.5 h-3.5" />
@@ -184,7 +184,7 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
                     value={effectiveAmount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
-                    className={`w-full min-w-0 bg-app border border-hairline rounded-2xl px-3 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 font-bold ${
+                    className={`w-full min-w-0 bg-app border border-hairline rounded-2xl px-3 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-bold ${
                       breakdownOpen ? 'opacity-80 cursor-not-allowed' : ''
                     }`}
                   />
@@ -198,7 +198,7 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
                       <button
                         type="button"
                         onClick={() => setDate('')}
-                        className="text-[10px] uppercase tracking-widest font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500"
+                        className="text-[10px] uppercase tracking-widest font-semibold text-brand-600 dark:text-brand-400 hover:text-brand-500"
                       >
                         Clear
                       </button>
@@ -208,13 +208,13 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full min-w-0 bg-app border border-hairline rounded-2xl px-3 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 dark:[&::-webkit-calendar-picker-indicator]:invert"
+                    className="w-full min-w-0 bg-app border border-hairline rounded-2xl px-3 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 dark:[&::-webkit-calendar-picker-indicator]:invert"
                   />
                 </div>
               </div>
 
               {breakdownOpen && (
-                <AmountBreakdown items={subItems} onChange={setSubItems} accent="sky" />
+                <AmountBreakdown items={subItems} onChange={setSubItems} accent="brand" />
               )}
 
               <div>
@@ -242,7 +242,7 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
                 <button
                   type="submit"
                   disabled={submitting || isDeleting}
-                  className="w-full bg-sky-500 hover:bg-sky-400 text-white font-bold tracking-widest uppercase text-sm rounded-2xl py-5 mt-4 transition-colors disabled:opacity-50 shadow-md dark:shadow-[0_10px_30px_rgba(14,165,233,0.3)]"
+                  className="w-full bg-brand-500 hover:bg-brand-400 text-white font-bold tracking-widest uppercase text-sm rounded-2xl py-5 mt-4 transition-colors disabled:opacity-50 shadow-md dark:shadow-[0_10px_30px_rgba(28,194,159,0.3)]"
                 >
                   {submitting ? "SAVING..." : "SAVE"}
                 </button>
