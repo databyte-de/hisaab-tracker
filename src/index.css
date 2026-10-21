@@ -14,35 +14,35 @@
   --color-muted: var(--muted);
   --color-subtle: var(--subtle);
 
-  /* Blinkit-inspired green action palette */
-  --color-brand-50: #e8f5e9;
-  --color-brand-100: #c8e6c9;
-  --color-brand-200: #a5d6a7;
-  --color-brand-300: #66bb6a;
-  --color-brand-400: #2e9b3e;
-  --color-brand-500: #0c831f;
-  --color-brand-600: #086b19;
-  --color-brand-700: #065214;
+  /* Soft Slate primary blue palette */
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #2563eb;
+  --color-brand-600: #1d4ed8;
+  --color-brand-700: #1e40af;
 }
 
 :root {
-  --app: #f8cb46;
+  --app: #f6f7f9;
   --surface: #ffffff;
-  --surface-2: #fff7df;
-  --hairline: rgba(28, 28, 28, 0.13);
-  --fg: #1c1c1c;
-  --muted: #555555;
-  --subtle: #8a8a8a;
+  --surface-2: #eef1f5;
+  --hairline: rgba(31, 41, 55, 0.12);
+  --fg: #1f2937;
+  --muted: #6b7280;
+  --subtle: #9ca3af;
 }
 
 .dark {
-  --app: #1c1c1c;
-  --surface: #292929;
-  --surface-2: #343434;
+  --app: #111827;
+  --surface: #1f2937;
+  --surface-2: #273449;
   --hairline: rgba(255, 255, 255, 0.14);
-  --fg: #f8f8f8;
-  --muted: #c4c4c4;
-  --subtle: #909090;
+  --fg: #f9fafb;
+  --muted: #9ca3af;
+  --subtle: #6b7280;
 }
 
 @layer base {
