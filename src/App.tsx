@@ -192,7 +192,7 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
              <h2 className="text-sm font-medium text-muted flex items-center gap-2">
                 <span className="text-lg">🤝</span> Lent
              </h2>
-             <span className="text-[10px] text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full font-bold">
+             <span className="text-[10px] text-amber-700 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full font-bold">
                {tabData.length} OPEN
              </span>
           </div>
