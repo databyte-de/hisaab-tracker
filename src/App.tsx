@@ -63,7 +63,7 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
   const [repaymentData, setRepaymentData] = useState<{ personName: string; balance: number; entries: Entry[] } | null>(null);
   const [editingEntry, setEditingEntry] = useState<Entry | null>(null);
   const [editingRepayment, setEditingRepayment] = useState<Repayment | null>(null);
-  const [activeTab, setActiveTab] = useState<DashboardTab>('tab');
+  const [activeTab, setActiveTab] = useState<DashboardTab>('personal');
 
   const { uniqueNames } = useMemo(() => {
     const names = new Set<string>();
