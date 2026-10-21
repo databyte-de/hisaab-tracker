@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { motion } from 'motion/react';
 import { useHisaabData } from './hooks/useHisaabData';
 import { useTheme } from './hooks/useTheme';
 import { useAuth } from './hooks/useAuth';
@@ -11,6 +12,8 @@ import { SignInScreen } from './components/SignInScreen';
 import { Activity, LogOut, Monitor, Moon, Plus, Sun } from 'lucide-react';
 import type { Entry, Repayment } from './types';
 import { formatINR } from './lib/utils';
+
+type DashboardTab = 'personal' | 'tab' | 'settled';
 
 function groupByPerson(list: Entry[]) {
   const map = new Map<string, Entry[]>();
@@ -60,6 +63,7 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
   const [repaymentData, setRepaymentData] = useState<{ personName: string; balance: number; entries: Entry[] } | null>(null);
   const [editingEntry, setEditingEntry] = useState<Entry | null>(null);
   const [editingRepayment, setEditingRepayment] = useState<Repayment | null>(null);
+  const [activeTab, setActiveTab] = useState<DashboardTab>('tab');
 
   const { uniqueNames } = useMemo(() => {
     const names = new Set<string>();
@@ -94,6 +98,12 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
       summary: { totalRecover, totalSpent }
     };
   }, [entries]);
+
+  const dashboardTabs: { id: DashboardTab; label: string; count: number }[] = [
+    { id: 'personal', label: 'Expenses', count: personalData.length },
+    { id: 'tab', label: 'Lent', count: tabData.length },
+    { id: 'settled', label: 'Settled', count: archivedData.length },
+  ];
 
   if (loading && entries.length === 0) {
     return (
@@ -151,105 +161,114 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
             <span className="text-sky-500 dark:text-sky-400 font-semibold text-sm">₹{formatINR(summary.totalSpent)}</span>
           </div>
         </div>
+
+        <nav className="mt-4 grid grid-cols-3 gap-1 rounded-2xl border border-hairline bg-surface/80 p-1" aria-label="Record categories" role="tablist">
+          {dashboardTabs.map(({ id, label, count }) => {
+            const isActive = activeTab === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => setActiveTab(id)}
+                className={`flex min-h-10 items-center justify-center gap-1.5 rounded-xl px-2 py-2 text-[11px] font-bold transition-colors ${
+                  isActive
+                    ? 'bg-brand-500 text-white shadow-sm'
+                    : 'text-muted hover:bg-fg/5 hover:text-fg'
+                }`}
+              >
+                <span>{label}</span>
+                <span className={`rounded-full px-1.5 py-0.5 text-[9px] leading-none ${
+                  isActive ? 'bg-white/15 text-white' : 'bg-fg/5 text-subtle'
+                }`}>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </nav>
       </header>
 
-      {/* Main Content / Categories */}
-      <main className="px-6 mt-6 space-y-6">
+      <main className="px-6 mt-6">
+        <motion.section
+          key={activeTab}
+          role="tabpanel"
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.18, ease: 'easeOut' }}
+          className="space-y-3"
+        >
+          {activeTab === 'personal' && (
+            <>
+              {personalData.length === 0 ? (
+                <div className="rounded-2xl border border-hairline bg-surface py-6 text-center text-xs text-subtle opacity-80">
+                  No expenses logged.
+                </div>
+              ) : (
+                personalData.map(({ personName, entries }) => (
+                  <PersonCard
+                    key={`personal-${personName}`}
+                    personName={personName}
+                    entries={entries}
+                    category="personal"
+                    onRecordRepayment={() => {}}
+                    onMarkSettled={() => {}}
+                    onEditEntry={(entry) => setEditingEntry(entry)}
+                    onEditRepayment={() => {}}
+                  />
+                ))
+              )}
+            </>
+          )}
 
-        {/* Personal Expenses */}
-        <section>
-          <div className="flex items-center gap-2 mb-3 px-1">
-            <h2 className="text-sm font-medium text-muted flex items-center gap-2">
-              <span className="text-lg">💸</span> Expenses
-            </h2>
-          </div>
+          {activeTab === 'tab' && (
+            <>
+              {tabData.length === 0 ? (
+                <div className="rounded-2xl border border-hairline bg-surface py-6 text-center text-xs text-subtle">
+                  No pending tabs. You're all settled up!
+                </div>
+              ) : (
+                tabData.map(({ personName, entries }) => (
+                  <PersonCard
+                    key={`tab-${personName}`}
+                    personName={personName}
+                    entries={entries}
+                    category="tab"
+                    onRecordRepayment={(name, balance) => setRepaymentData({ personName: name, balance, entries })}
+                    onMarkSettled={markPersonSettled}
+                    onEditEntry={(entry) => setEditingEntry(entry)}
+                    onEditRepayment={(rep) => setEditingRepayment(rep)}
+                  />
+                ))
+              )}
+            </>
+          )}
 
-          <div className="space-y-3">
-            {personalData.length === 0 ? (
-              <div className="text-center py-6 text-xs text-subtle bg-surface rounded-2xl border border-hairline opacity-80">
-                No expenses logged.
-              </div>
-            ) : (
-              personalData.map(({ personName, entries }) => (
-                <PersonCard
-                  key={`personal-${personName}`}
-                  personName={personName}
-                  entries={entries}
-                  category="personal"
-                  onRecordRepayment={() => {}}
-                  onMarkSettled={() => {}}
-                  onEditEntry={(entry) => setEditingEntry(entry)}
-                  onEditRepayment={() => {}}
-                />
-              ))
-            )}
-          </div>
-        </section>
-
-        {/* The Tab */}
-        <section>
-          <div className="flex justify-between items-center mb-3 px-1">
-             <h2 className="text-sm font-medium text-muted flex items-center gap-2">
-                <span className="text-lg">🤝</span> Lent
-             </h2>
-             <span className="text-[10px] text-amber-700 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full font-bold">
-               {tabData.length} OPEN
-             </span>
-          </div>
-          
-          <div className="space-y-3">
-            {tabData.length === 0 ? (
-              <div className="text-center py-6 text-xs text-subtle bg-surface rounded-2xl border border-hairline">
-                No pending tabs. You're all settled up!
-              </div>
-            ) : (
-              tabData.map(({ personName, entries }) => (
-                <PersonCard
-                  key={`tab-${personName}`}
-                  personName={personName}
-                  entries={entries}
-                  category="tab"
-                  onRecordRepayment={(name, balance) => setRepaymentData({ personName: name, balance, entries })}
-                  onMarkSettled={markPersonSettled}
-                  onEditEntry={(entry) => setEditingEntry(entry)}
-                  onEditRepayment={(rep) => setEditingRepayment(rep)}
-                />
-              ))
-            )}
-          </div>
-        </section>
-
-        {/* Archived Section */}
-        <section>
-          <div className="flex items-center gap-2 mb-3 px-1">
-            <h2 className="text-sm font-medium text-muted flex items-center gap-2">
-              <span className="text-lg">📦</span> Settled
-            </h2>
-          </div>
-          
-          <div className="space-y-3">
-            {archivedData.length === 0 ? (
-              <div className="text-center py-6 text-xs text-subtle bg-surface rounded-2xl border border-hairline opacity-80">
-                No archived records.
-              </div>
-            ) : (
-              archivedData.map(({ personName, entries }) => (
-                <PersonCard
-                  key={`archived-${personName}`}
-                  personName={personName}
-                  entries={entries}
-                  category={entries[0].category}
-                  onRecordRepayment={(name, balance) => setRepaymentData({ personName: name, balance, entries })}
-                  onMarkSettled={markPersonSettled}
-                  onEditEntry={(entry) => setEditingEntry(entry)}
-                  onEditRepayment={(rep) => setEditingRepayment(rep)}
-                  isArchived={true}
-                />
-              ))
-            )}
-          </div>
-        </section>
-
+          {activeTab === 'settled' && (
+            <>
+              {archivedData.length === 0 ? (
+                <div className="rounded-2xl border border-hairline bg-surface py-6 text-center text-xs text-subtle opacity-80">
+                  No settled records.
+                </div>
+              ) : (
+                archivedData.map(({ personName, entries }) => (
+                  <PersonCard
+                    key={`archived-${personName}`}
+                    personName={personName}
+                    entries={entries}
+                    category={entries[0].category}
+                    onRecordRepayment={(name, balance) => setRepaymentData({ personName: name, balance, entries })}
+                    onMarkSettled={markPersonSettled}
+                    onEditEntry={(entry) => setEditingEntry(entry)}
+                    onEditRepayment={(rep) => setEditingRepayment(rep)}
+                    isArchived={true}
+                  />
+                ))
+              )}
+            </>
+          )}
+        </motion.section>
       </main>
 
       <AddEntryPanel 
