@@ -42,7 +42,12 @@ function ItemizedBreakdown({ items }: { items: SubItem[] }) {
           return (
             <div key={item.id || `${item.label}-${index}`} className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-4 py-2.5 text-xs">
               <span className="min-w-0 break-words text-muted">
-                {item.label || 'Item'}
+                <span className="block">{item.label || 'Item'}</span>
+                {item.date && (
+                  <span className="mt-0.5 block text-[10px] text-subtle">
+                    {format(new Date(`${item.date}T00:00:00`), 'dd MMM yyyy')}
+                  </span>
+                )}
               </span>
               <span className="whitespace-nowrap text-right font-semibold tabular-nums text-fg">
                 ₹{formatINR(amount)}

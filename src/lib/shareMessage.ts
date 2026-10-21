@@ -1,4 +1,5 @@
 import type { Entry } from '../types';
+import { format } from 'date-fns';
 import { formatINR } from './utils';
 import { parseBreakdownFromNote } from '../components/AmountBreakdown';
 
@@ -44,7 +45,10 @@ export function buildShareMessage({
         return items.map((item) => {
           const amt = parseFloat(item.amount) || 0;
           const label = item.label.trim() || 'Item';
-          return `• ${label} — ₹${formatINR(amt)}`;
+          const date = item.date
+            ? ` (${format(new Date(`${item.date}T00:00:00`), 'dd MMM yyyy')})`
+            : '';
+          return `• ${label}${date} — ₹${formatINR(amt)}`;
         });
       }
       return [`• ${e.purpose} — ₹${formatINR(e.amount)}`];

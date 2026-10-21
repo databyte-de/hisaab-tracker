@@ -1,7 +1,7 @@
 import React from 'react';
-import { Plus, X } from 'lucide-react';
+import { CalendarPlus, Plus, X } from 'lucide-react';
 
-export type SubItem = { id: string; label: string; amount: string };
+export type SubItem = { id: string; label: string; amount: string; date: string };
 
 type Accent = 'brand' | 'sky' | 'emerald';
 
@@ -24,7 +24,7 @@ const accentText: Record<Accent, string> = {
 };
 
 export function newSubItem(): SubItem {
-  return { id: Math.random().toString(36).slice(2), label: '', amount: '' };
+  return { id: Math.random().toString(36).slice(2), label: '', amount: '', date: '' };
 }
 
 export function breakdownTotal(items: SubItem[]): number {
@@ -37,7 +37,8 @@ export function breakdownToNote(items: SubItem[]): string {
     .map((i) => {
       const amt = parseFloat(i.amount) || 0;
       const label = i.label.trim() || 'Item';
-      return `${label} ₹${amt.toFixed(2)}`;
+      const date = i.date ? ` [date:${i.date}]` : '';
+      return `${label} ₹${amt.toFixed(2)}${date}`;
     });
   return parts.length ? `— ${parts.join(' · ')}` : '';
 }
@@ -50,11 +51,12 @@ export function parseBreakdownFromNote(note: string | null | undefined): { clean
 
   const breakdownLine = lines[idx].trimStart().slice(2);
   const items: SubItem[] = breakdownLine.split(' · ').map((part) => {
-    const m = part.match(/^(.*?)\s*₹\s*(-?[\d.]+)\s*$/);
+    const m = part.match(/^(.*?)\s*₹\s*(-?[\d.]+)(?:\s+\[date:(\d{4}-\d{2}-\d{2})\])?\s*$/);
     return {
       id: Math.random().toString(36).slice(2),
       label: m ? m[1].trim() : part.trim(),
       amount: m ? m[2] : '',
+      date: m?.[3] || '',
     };
   });
 
@@ -63,6 +65,7 @@ export function parseBreakdownFromNote(note: string | null | undefined): { clean
 }
 
 export function AmountBreakdown({ items, onChange, accent }: Props) {
+  const [datePickerOpenFor, setDatePickerOpenFor] = React.useState<string | null>(null);
   const update = (id: string, patch: Partial<SubItem>) => {
     onChange(items.map((i) => (i.id === id ? { ...i, ...patch } : i)));
   };
@@ -83,34 +86,72 @@ export function AmountBreakdown({ items, onChange, accent }: Props) {
           Add line items below — total fills Amount automatically.
         </p>
       )}
-      {items.map((item) => (
-        <div key={item.id} className="flex gap-2 items-center">
-          <input
-            type="text"
-            value={item.label}
-            onChange={(e) => update(item.id, { label: e.target.value })}
-            placeholder="Item"
-            className={`flex-1 ${inputCls}`}
-          />
-          <input
-            type="number"
-            inputMode="decimal"
-            step="0.01"
-            value={item.amount}
-            onChange={(e) => update(item.id, { amount: e.target.value })}
-            placeholder="0.00"
-            className={`w-24 font-bold ${inputCls}`}
-          />
-          <button
-            type="button"
-            onClick={() => remove(item.id)}
-            aria-label="Remove item"
-            className="w-8 h-8 shrink-0 rounded-lg border border-hairline bg-fg/5 text-muted hover:text-fg hover:bg-fg/10 flex items-center justify-center transition-colors"
-          >
-            <X className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      ))}
+      {items.map((item) => {
+        const isDatePickerOpen = datePickerOpenFor === item.id;
+        return (
+          <div key={item.id} className="rounded-xl">
+            <div className="flex gap-2 items-center">
+              <input
+                type="text"
+                value={item.label}
+                onChange={(e) => update(item.id, { label: e.target.value })}
+                placeholder="Item"
+                className={`flex-1 ${inputCls}`}
+              />
+              <input
+                type="number"
+                inputMode="decimal"
+                step="0.01"
+                value={item.amount}
+                onChange={(e) => update(item.id, { amount: e.target.value })}
+                placeholder="0.00"
+                className={`w-24 font-bold ${inputCls}`}
+              />
+              <button
+                type="button"
+                onClick={() => setDatePickerOpenFor(isDatePickerOpen ? null : item.id)}
+                aria-label={item.date ? 'Edit item date' : 'Add item date'}
+                title={item.date ? 'Edit item date' : 'Add item date'}
+                className={`w-8 h-8 shrink-0 rounded-lg border flex items-center justify-center transition-colors ${
+                  item.date
+                    ? 'border-brand-500/30 bg-brand-500/10 text-brand-600 dark:text-brand-400'
+                    : 'border-hairline bg-fg/5 text-muted hover:text-fg hover:bg-fg/10'
+                }`}
+              >
+                <CalendarPlus className="w-3.5 h-3.5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => remove(item.id)}
+                aria-label="Remove item"
+                className="w-8 h-8 shrink-0 rounded-lg border border-hairline bg-fg/5 text-muted hover:text-fg hover:bg-fg/10 flex items-center justify-center transition-colors"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+            {isDatePickerOpen && (
+              <div className="ml-auto mt-2 flex w-[13.5rem] items-center gap-2">
+                <input
+                  type="date"
+                  value={item.date}
+                  onChange={(e) => update(item.id, { date: e.target.value })}
+                  aria-label="Item date"
+                  className={`${inputCls} py-2`}
+                />
+                {item.date && (
+                  <button
+                    type="button"
+                    onClick={() => update(item.id, { date: '' })}
+                    className="shrink-0 text-[10px] font-bold uppercase tracking-widest text-brand-600 hover:text-brand-500 dark:text-brand-400"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })}
       <button
         type="button"
         onClick={add}
