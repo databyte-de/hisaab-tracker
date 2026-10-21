@@ -242,7 +242,7 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
                 <button
                   type="submit"
                   disabled={submitting || isDeleting}
-                  className="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold tracking-widest uppercase text-sm rounded-2xl py-5 mt-4 transition-colors disabled:opacity-50 shadow-md dark:shadow-[0_10px_30px_rgba(37,99,235,0.25)]"
+                  className="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold tracking-widest uppercase text-sm rounded-2xl py-5 mt-4 transition-colors disabled:opacity-50 shadow-md dark:shadow-[0_10px_30px_rgba(0,0,0,0.22)]"
                 >
                   {submitting ? "SAVING..." : "SAVE"}
                 </button>

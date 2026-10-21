@@ -105,7 +105,7 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                         onClick={() => setCategory(cat)}
                         className={`p-3 text-[11px] rounded-2xl border text-center font-bold tracking-wide transition-all ${
                           category === cat
-                            ? "bg-brand-500 border-brand-400 text-white shadow-[0_0_15px_rgba(37,99,235,0.25)] shadow-inner"
+                            ? "bg-brand-500 border-brand-400 text-white shadow-[0_0_15px_rgba(41,37,36,0.18)] shadow-inner"
                             : "bg-app border-hairline text-muted hover:bg-fg/5 hover:text-fg"
                         }`}
                       >
@@ -233,7 +233,7 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold tracking-widest uppercase text-sm rounded-2xl py-5 mt-4 transition-colors disabled:opacity-50 shadow-md dark:shadow-[0_10px_30px_rgba(37,99,235,0.25)]"
+                className="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold tracking-widest uppercase text-sm rounded-2xl py-5 mt-4 transition-colors disabled:opacity-50 shadow-md dark:shadow-[0_10px_30px_rgba(0,0,0,0.22)]"
               >
                 {submitting ? "Saving..." : "Save Record"}
               </button>
