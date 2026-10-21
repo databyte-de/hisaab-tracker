@@ -255,34 +255,24 @@ export function PersonCard({
                 )}
               </div>
             </div>
-          ) : (
-            <div className="flex justify-between items-center mb-4">
-              <p className="text-xs text-muted">
-                Total Amount: ₹{formatINR(totalAmount)}
-              </p>
-              <div className="flex gap-2">
-                {isArchived && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onMarkSettled(entries.map((en) => en.id), false);
-                    }}
-                    className="text-[10px] font-bold tracking-wider px-3 py-1.5 rounded-lg bg-fg/5 text-muted border border-hairline hover:bg-fg/10 hover:text-fg transition-colors"
-                  >
-                    RESTORE
-                  </button>
-                )}
-              </div>
+          ) : isArchived ? (
+            <div className="flex justify-end items-center mb-4">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onMarkSettled(entries.map((en) => en.id), false);
+                }}
+                className="text-[10px] font-bold tracking-wider px-3 py-1.5 rounded-lg bg-fg/5 text-muted border border-hairline hover:bg-fg/10 hover:text-fg transition-colors"
+              >
+                RESTORE
+              </button>
             </div>
-          )}
+          ) : null}
 
-          <div className="space-y-3 relative before:absolute before:inset-y-0 before:left-3 before:w-px before:bg-hairline pl-8">
+          <div className="space-y-3">
             {entries.map((entry) => {
               return (
-                <div key={entry.id} className="relative">
-                  {/* Timeline dot */}
-                  <div className="absolute -left-6 top-2.5 w-1.5 h-1.5 rounded-full bg-subtle border border-app"></div>
-
+                <div key={entry.id}>
                   <div className="bg-surface p-3 rounded-xl border border-hairline">
                     <div className="flex justify-between items-start">
                       <div>
