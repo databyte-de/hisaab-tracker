@@ -126,26 +126,26 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
             onClick={cycleTheme}
             aria-label={`Theme: ${themeMode}. Click to change.`}
             title={`Theme: ${themeMode}`}
-            className="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center border border-brand-500/20 cursor-pointer hover:bg-brand-500/20 transition-colors"
+            className="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center border border-brand-500/20 cursor-pointer hover:bg-brand-500/20 transition-colors dark:bg-white/10 dark:border-white/20 dark:hover:bg-white/15"
           >
-            {themeMode === 'auto' && <Monitor className="w-5 h-5 text-brand-500" />}
-            {themeMode === 'light' && <Sun className="w-5 h-5 text-brand-500" />}
-            {themeMode === 'dark' && <Moon className="w-5 h-5 text-brand-500" />}
+            {themeMode === 'auto' && <Monitor className="w-5 h-5 text-brand-500 dark:text-white" />}
+            {themeMode === 'light' && <Sun className="w-5 h-5 text-brand-500 dark:text-white" />}
+            {themeMode === 'dark' && <Moon className="w-5 h-5 text-brand-500 dark:text-white" />}
           </button>
           <div className="flex gap-2">
             <button
               onClick={onSignOut}
               aria-label="Sign out"
-              className="w-10 h-10 rounded-full bg-fg/5 flex items-center justify-center border border-hairline cursor-pointer hover:bg-fg/10 transition-colors"
+              className="w-10 h-10 rounded-full bg-fg/5 flex items-center justify-center border border-hairline cursor-pointer hover:bg-fg/10 transition-colors dark:bg-white/10 dark:border-white/20 dark:hover:bg-white/15"
             >
-              <LogOut className="w-4 h-4 text-muted" />
+              <LogOut className="w-4 h-4 text-muted dark:text-white" />
             </button>
             <button
               onClick={() => setIsAddOpen(true)}
               aria-label="Add entry"
-              className="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center border border-brand-500/20 cursor-pointer hover:bg-brand-500/20 transition-colors"
+              className="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center border border-brand-500/20 cursor-pointer hover:bg-brand-500/20 transition-colors dark:bg-white/10 dark:border-white/20 dark:hover:bg-white/15"
             >
-              <Plus className="w-5 h-5 text-brand-500" />
+              <Plus className="w-5 h-5 text-brand-500 dark:text-white" />
             </button>
           </div>
         </div>
