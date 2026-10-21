@@ -100,8 +100,8 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
   }, [entries]);
 
   const dashboardTabs: { id: DashboardTab; label: string; count: number }[] = [
-    { id: 'personal', label: 'Expenses', count: personalData.length },
     { id: 'tab', label: 'Lent', count: tabData.length },
+    { id: 'personal', label: 'Expenses', count: personalData.length },
     { id: 'settled', label: 'Settled', count: archivedData.length },
   ];
 
