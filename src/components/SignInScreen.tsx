@@ -8,7 +8,7 @@ export function SignInScreen({ onSignIn }: SignInScreenProps) {
   return (
     <div className="min-h-screen bg-app text-fg flex flex-col items-center justify-center px-6">
       <div className="w-full max-w-sm flex flex-col items-center text-center">
-        <div className="w-20 h-20 rounded-3xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-6 shadow-[0_10px_30px_rgba(28,194,159,0.15)]">
+        <div className="w-20 h-20 rounded-3xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-6 shadow-[0_10px_30px_rgba(59,130,246,0.15)]">
           <Wallet className="w-9 h-9 text-brand-500" />
         </div>
 
