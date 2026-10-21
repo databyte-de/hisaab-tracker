@@ -14,35 +14,35 @@
   --color-muted: var(--muted);
   --color-subtle: var(--subtle);
 
-  /* Warm Forest Ledger primary palette */
-  --color-brand-50: #ecfdf5;
-  --color-brand-100: #d1fae5;
-  --color-brand-200: #a7f3d0;
-  --color-brand-300: #6ee7b7;
-  --color-brand-400: #34d399;
-  --color-brand-500: #047857;
-  --color-brand-600: #065f46;
-  --color-brand-700: #064e3b;
+  /* Charcoal and Amazon-style orange primary palette */
+  --color-brand-50: #fff7ed;
+  --color-brand-100: #ffedd5;
+  --color-brand-200: #fed7aa;
+  --color-brand-300: #fdba74;
+  --color-brand-400: #ffad33;
+  --color-brand-500: #ff9900;
+  --color-brand-600: #d97706;
+  --color-brand-700: #b45309;
 }
 
 :root {
-  --app: #faf7f0;
-  --surface: #fffdf9;
-  --surface-2: #f2eadc;
-  --hairline: rgba(91, 67, 42, 0.14);
-  --fg: #332a22;
-  --muted: #695f56;
-  --subtle: #9a9085;
+  --app: #f6f7f8;
+  --surface: #ffffff;
+  --surface-2: #e9edf2;
+  --hairline: rgba(19, 26, 34, 0.14);
+  --fg: #131a22;
+  --muted: #536171;
+  --subtle: #8a97a6;
 }
 
 .dark {
-  --app: #15120f;
-  --surface: #211c16;
-  --surface-2: #2c251d;
-  --hairline: rgba(233, 216, 189, 0.15);
-  --fg: #f5f0e8;
-  --muted: #c8bdb0;
-  --subtle: #928778;
+  --app: #131a22;
+  --surface: #1b2633;
+  --surface-2: #243244;
+  --hairline: rgba(203, 213, 225, 0.18);
+  --fg: #f1f5f9;
+  --muted: #c0cad6;
+  --subtle: #8c9aaa;
 }
 
 @layer base {
