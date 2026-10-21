@@ -4,6 +4,7 @@ import { Pencil, Share2 } from 'lucide-react';
 import type { Entry } from '../types';
 import { formatINR } from '../lib/utils';
 import { buildShareMessage, shareHisaab } from '../lib/shareMessage';
+import { parseBreakdownFromNote, type SubItem } from './AmountBreakdown';
 
 interface PersonCardProps {
   key?: React.Key;
@@ -15,6 +16,53 @@ interface PersonCardProps {
   onEditEntry: (entry: Entry) => void;
   onEditRepayment: (repayment: any) => void;
   isArchived?: boolean;
+}
+
+const BREAKDOWN_PREVIEW_COUNT = 5;
+
+function ItemizedBreakdown({ items }: { items: SubItem[] }) {
+  const [showAll, setShowAll] = React.useState(false);
+  const visibleItems = showAll ? items : items.slice(0, BREAKDOWN_PREVIEW_COUNT);
+  const hiddenCount = items.length - BREAKDOWN_PREVIEW_COUNT;
+
+  return (
+    <div className="mt-3 overflow-hidden rounded-xl border border-hairline bg-app/60">
+      <div className="flex items-center justify-between border-b border-hairline px-3 py-2">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-subtle">
+          Itemized breakdown
+        </span>
+        <span className="text-[10px] font-medium text-muted">
+          {items.length} {items.length === 1 ? 'item' : 'items'}
+        </span>
+      </div>
+
+      <div className="divide-y divide-hairline/70 px-3">
+        {visibleItems.map((item, index) => {
+          const amount = parseFloat(item.amount) || 0;
+          return (
+            <div key={item.id || `${item.label}-${index}`} className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-4 py-2.5 text-xs">
+              <span className="min-w-0 break-words text-muted">
+                {item.label || 'Item'}
+              </span>
+              <span className="whitespace-nowrap text-right font-semibold tabular-nums text-fg">
+                ₹{formatINR(amount)}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      {hiddenCount > 0 && (
+        <button
+          type="button"
+          onClick={() => setShowAll(!showAll)}
+          className="w-full border-t border-hairline px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-widest text-brand-600 transition-colors hover:bg-brand-500/10 dark:text-brand-400"
+        >
+          {showAll ? 'Show less' : `View ${hiddenCount} more ${hiddenCount === 1 ? 'item' : 'items'}`}
+        </button>
+      )}
+    </div>
+  );
 }
 
 export function PersonCard({
@@ -259,11 +307,19 @@ export function PersonCard({
                       </div>
                     </div>
 
-                    {entry.note && (
-                      <p className="text-[11px] text-muted italic mt-2 opacity-80 whitespace-pre-line">
-                        "{entry.note}"
-                      </p>
-                    )}
+                    {(() => {
+                      const { cleanNote, items } = parseBreakdownFromNote(entry.note);
+                      return (
+                        <>
+                          {items.length > 0 && <ItemizedBreakdown items={items} />}
+                          {cleanNote && (
+                            <p className="mt-3 whitespace-pre-line text-[11px] italic text-muted opacity-80">
+                              {cleanNote}
+                            </p>
+                          )}
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
               );
