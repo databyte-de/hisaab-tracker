@@ -271,34 +271,66 @@ export function PersonCard({
 
           <div className="space-y-3">
             {entries.map((entry) => {
+              const isNameRedundant =
+                category === "personal" ||
+                Boolean(entry.purpose && entry.purpose.trim().toLowerCase() === personName.trim().toLowerCase());
+              const showEntryAmount = category === "tab" || entries.length > 1;
+
               return (
                 <div key={entry.id}>
                   <div className="bg-surface p-3 rounded-xl border border-hairline">
-                    <div className="flex justify-between items-start">
+                    <div className="flex justify-between items-center">
                       <div>
-                        <div className="flex items-center gap-2">
-                          <p className="text-sm text-fg">
-                            {entry.purpose}
-                          </p>
+                        {isNameRedundant ? (
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               onEditEntry(entry);
                             }}
-                            className="text-subtle hover:text-fg transition-colors"
+                            className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-fg/5 text-muted hover:text-fg hover:bg-fg/10 border border-hairline transition-colors"
                             title="Edit Entry"
                           >
-                            <Pencil className="w-3 h-3" />
+                            <Pencil className="w-3.5 h-3.5" />
+                            <span>Edit Entry</span>
                           </button>
-                        </div>
-                        <p className="text-[10px] text-subtle uppercase mt-1">
-                          {entry.date ? format(new Date(entry.date), "dd MMM yyyy") : ""}
-                        </p>
+                        ) : (
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <p className="text-sm font-medium text-fg">
+                                {entry.purpose}
+                              </p>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onEditEntry(entry);
+                                }}
+                                className="inline-flex items-center gap-1 text-xs text-subtle hover:text-fg transition-colors"
+                                title="Edit Entry"
+                              >
+                                <Pencil className="w-3 h-3" />
+                                <span>Edit</span>
+                              </button>
+                            </div>
+                            {entry.date && (
+                              <p className="text-[10px] text-subtle uppercase mt-1">
+                                {format(new Date(entry.date), "dd MMM yyyy")}
+                              </p>
+                            )}
+                          </div>
+                        )}
                       </div>
-                      <div className="text-right">
-                        <p className="text-sm font-bold text-fg">
-                          ₹{formatINR(entry.amount)}
-                        </p>
+
+                      <div className="flex items-center gap-3 text-right">
+                        {showEntryAmount && (
+                          <p className="text-sm font-bold text-fg">
+                            ₹{formatINR(entry.amount)}
+                          </p>
+                        )}
+                        {isNameRedundant && entry.date && (
+                          <p className="text-xs text-subtle">
+                            {format(new Date(entry.date), "dd MMM yyyy")}
+                          </p>
+                        )}
                       </div>
                     </div>
 
