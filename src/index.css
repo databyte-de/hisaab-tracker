@@ -14,49 +14,47 @@
   --color-muted: var(--muted);
   --color-subtle: var(--subtle);
 
-  /* Sunburst orange primary palette */
-  --color-brand-50: #fff8e7;
-  --color-brand-100: #ffedb0;
-  --color-brand-200: #ffdb66;
-  --color-brand-300: #ffca28;
-  --color-brand-400: #ffb300;
-  --color-brand-500: #1f1600;
-  --color-brand-600: #342500;
-  --color-brand-700: #503900;
+  /* Blinkit-inspired green action palette */
+  --color-brand-50: #e8f5e9;
+  --color-brand-100: #c8e6c9;
+  --color-brand-200: #a5d6a7;
+  --color-brand-300: #66bb6a;
+  --color-brand-400: #2e9b3e;
+  --color-brand-500: #0c831f;
+  --color-brand-600: #086b19;
+  --color-brand-700: #065214;
 }
 
 :root {
-  --app: #ffb703;
-  --app-gradient: linear-gradient(145deg, #ffd54a 0%, #ffb703 42%, #ff7200 100%);
-  --surface: #ff7a00;
-  --surface-2: #ff9200;
-  --hairline: rgba(70, 35, 0, 0.24);
-  --fg: #1f1600;
-  --muted: #4d2c00;
-  --subtle: #7a4700;
+  --app: #f8cb46;
+  --surface: #ffffff;
+  --surface-2: #fff7df;
+  --hairline: rgba(28, 28, 28, 0.13);
+  --fg: #1c1c1c;
+  --muted: #555555;
+  --subtle: #8a8a8a;
 }
 
 .dark {
-  --app: #ff9800;
-  --app-gradient: linear-gradient(145deg, #ffc107 0%, #ff9800 42%, #f4511e 100%);
-  --surface: #f97316;
-  --surface-2: #fb8c00;
-  --hairline: rgba(61, 30, 0, 0.28);
-  --fg: #1f1600;
-  --muted: #4d2c00;
-  --subtle: #7a4700;
+  --app: #1c1c1c;
+  --surface: #292929;
+  --surface-2: #343434;
+  --hairline: rgba(255, 255, 255, 0.14);
+  --fg: #f8f8f8;
+  --muted: #c4c4c4;
+  --subtle: #909090;
 }
 
 @layer base {
   html {
-    background: var(--app-gradient);
+    background-color: var(--app);
   }
   body {
     @apply text-fg font-sans antialiased;
-    background: var(--app-gradient);
+    background-color: var(--app);
   }
   .min-h-screen.bg-app {
-    background: var(--app-gradient) !important;
+    background-color: var(--app) !important;
   }
   ::selection {
     @apply bg-brand-500/30;
