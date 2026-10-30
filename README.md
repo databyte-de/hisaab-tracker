@@ -145,30 +145,3 @@ src/
     ├── api.ts               # Database calls (RLS enforces isolation)
     └── utils.ts             # cn() helper
 ```
-
-## Photo and PDF import
-
-Add Entry includes camera capture and JPG/PNG/WebP/PDF upload (10 MB maximum).
-PDFs up to three pages select all pages automatically; longer PDFs show page selection.
-The initial version supports up to three selected pages per extraction. Review every
-suggested value before saving. Multiple unrelated transactions require manual selection
-of the entry amount. Original files and rendered images are held only in memory;
-the extracted draft lives in the form, with no persistent extraction cache.
-
-PDF rendering happens in the browser; only resized JPEG pages reach the function.
-No Supabase Storage bucket is required. Provider processing/retention is governed
-by Groq's own account settings and policy, independently of this application's cleanup.
-
-Deploy the authenticated function to your Supabase project:
-
-```sh
-supabase functions deploy extract-entry
-```
-
-In Supabase Dashboard → Edge Functions → Secrets, add `GROQ_API_KEY`.
-Never use a `VITE_` variable for this secret. The function verifies the user's JWT,
-validates requests, and returns sanitized fields. No document contents are logged.
-
-Local UI: `npm run dev`. Live extraction requires a deployed function and its secret.
-For a local backend use Supabase CLI function serving with a private environment file
-and point the frontend at the corresponding local Supabase project.

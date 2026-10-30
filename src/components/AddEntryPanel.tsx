@@ -1,4 +1,3 @@
-import { ImportEntry } from './ImportEntry';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Calculator } from 'lucide-react';
@@ -118,12 +117,6 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                 </div>
               </div>
 
-              <ImportEntry category={category} onImport={draft => {
-                setPersonName(category === 'personal' ? draft.title || '' : draft.person || '');
-                setPurpose(draft.purpose || ''); setAmount(draft.amount?.toString() || '');
-                setDate(draft.date || ''); setNote(draft.note || '');
-                setBreakdownOpen(false); setSubItems([]);
-              }} />
               <div>
                 <label className="block text-[10px] uppercase tracking-widest font-semibold text-subtle mb-3">
                   {category === 'personal' ? 'Title' : 'Person Name'}
