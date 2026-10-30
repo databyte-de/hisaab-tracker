@@ -24,17 +24,6 @@ function groupByPerson(list: Entry[]) {
   return Array.from(map.entries()).map(([personName, entries]) => ({ personName, entries }));
 }
 
-function personBalance(entries: Entry[]) {
-  return entries.reduce((sum, e) => {
-    const repaid = e.repayments?.reduce((r, p) => r + p.amount_received, 0) || 0;
-    return sum + (e.amount - repaid);
-  }, 0);
-}
-
-function personTotal(entries: Entry[]) {
-  return entries.reduce((sum, e) => sum + e.amount, 0);
-}
-
 export default function App() {
   const { user, loading: authLoading, signInWithGoogle, signOut } = useAuth();
 
@@ -92,9 +81,9 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
     const totalSpent = personalEntries.reduce((sum, e) => sum + e.amount, 0);
 
     return {
-      tabData: groupByPerson(tabEntries).sort((a, b) => personBalance(b.entries) - personBalance(a.entries)),
-      personalData: groupByPerson(personalEntries).sort((a, b) => personTotal(b.entries) - personTotal(a.entries)),
-      archivedData: groupByPerson(archivedEntries).sort((a, b) => personTotal(b.entries) - personTotal(a.entries)),
+      tabData: groupByPerson(tabEntries).sort((a, b) => a.personName.localeCompare(b.personName, undefined, { sensitivity: 'base' })),
+      personalData: groupByPerson(personalEntries).sort((a, b) => a.personName.localeCompare(b.personName, undefined, { sensitivity: 'base' })),
+      archivedData: groupByPerson(archivedEntries).sort((a, b) => a.personName.localeCompare(b.personName, undefined, { sensitivity: 'base' })),
       summary: { totalRecover, totalSpent }
     };
   }, [entries]);
