@@ -9,7 +9,16 @@ export function useAuth() {
 
   useEffect(() => {
     let active = true;
-    supabase.auth.getSession().then(({ data, error }) => {
+    // Complete the OAuth redirect explicitly before checking the stored session.
+    // This also handles browsers where automatic URL session detection fails.
+    const callback = new URLSearchParams(window.location.hash.slice(1));
+    const accessToken = callback.get('access_token');
+    const refreshToken = callback.get('refresh_token');
+    const pendingSession = accessToken && refreshToken
+      ? supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken })
+      : supabase.auth.getSession();
+    pendingSession.then(({ data, error }) => {
+      if (accessToken && refreshToken) history.replaceState(null, '', window.location.pathname + window.location.search);
       if (!active) return;
       setSession(data.session);
       setError(error ? `Could not complete sign-in: ${error.message}` : null);
