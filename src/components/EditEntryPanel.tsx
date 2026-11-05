@@ -175,6 +175,7 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
                       {breakdownOpen ? 'Done' : 'Split'}
                     </button>
                   </div>
+                  <div className="flex min-w-0 overflow-hidden rounded-2xl border border-hairline bg-app focus-within:border-brand-500 focus-within:ring-1 focus-within:ring-brand-500">
                   <input
                     type="number"
                     step="0.01"
@@ -184,7 +185,7 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
                     value={effectiveAmount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
-                    className={`w-full min-w-0 bg-app border border-hairline rounded-2xl px-3 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-bold ${
+                    className={`min-w-0 flex-1 bg-transparent px-3 py-4 text-fg text-sm placeholder:text-subtle focus:outline-none font-bold ${
                       breakdownOpen ? 'opacity-80 cursor-not-allowed' : ''
                     }`}
                   />
@@ -193,12 +194,13 @@ export function EditEntryPanel({ entry, onClose, onSubmit, onDelete, uniqueNames
                       type="button"
                       onClick={() => setAmount(value => String(-(Number(value) || 0)))}
                       disabled={!Number(amount)}
-                      aria-label="Change amount sign"
-                      className="mt-2 min-h-10 text-xs font-semibold text-muted disabled:opacity-40"
+                      aria-label={Number(amount) < 0 ? 'Make amount positive' : 'Make amount negative'}
+                      className="w-10 shrink-0 border-l border-hairline text-sm font-semibold text-muted hover:bg-fg/5 disabled:opacity-40"
                     >
-                      ± {Number(amount) < 0 ? 'Make positive' : 'Make negative'}
+                      ±
                     </button>
                   )}
+                  </div>
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center justify-between mb-3 gap-2">
