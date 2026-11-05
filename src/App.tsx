@@ -25,7 +25,7 @@ function groupByPerson(list: Entry[]) {
 }
 
 export default function App() {
-  const { user, loading: authLoading, signInWithGoogle, signOut } = useAuth();
+  const { user, loading: authLoading, error: authError, signInWithGoogle, signOut } = useAuth();
 
   if (authLoading) {
     return (
@@ -39,7 +39,7 @@ export default function App() {
   }
 
   if (!user) {
-    return <SignInScreen onSignIn={signInWithGoogle} />;
+    return <SignInScreen onSignIn={signInWithGoogle} error={authError} />;
   }
 
   return <AuthenticatedApp onSignOut={signOut} />;

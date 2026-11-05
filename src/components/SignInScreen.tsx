@@ -2,9 +2,10 @@ import { Wallet } from 'lucide-react';
 
 interface SignInScreenProps {
   onSignIn: () => void;
+  error?: string | null;
 }
 
-export function SignInScreen({ onSignIn }: SignInScreenProps) {
+export function SignInScreen({ onSignIn, error }: SignInScreenProps) {
   return (
     <div className="min-h-screen bg-app text-fg flex flex-col items-center justify-center px-6">
       <div className="w-full max-w-sm flex flex-col items-center text-center">
@@ -17,6 +18,7 @@ export function SignInScreen({ onSignIn }: SignInScreenProps) {
           Udhari, Kharcha aur Hisaab — sab kuch ek jagah.
         </p>
 
+        {error && <p role="alert" className="mb-4 text-sm text-red-600 dark:text-red-400">{error}</p>}
         <button
           onClick={onSignIn}
           className="w-full bg-surface hover:bg-fg/5 text-fg font-semibold rounded-2xl py-4 flex items-center justify-center gap-3 border border-hairline shadow-sm transition-colors"
