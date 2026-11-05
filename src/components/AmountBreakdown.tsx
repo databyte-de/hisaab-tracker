@@ -98,6 +98,7 @@ export function AmountBreakdown({ items, onChange, accent }: Props) {
                 placeholder="Item"
                 className={`flex-1 ${inputCls}`}
               />
+              <div className="w-24 shrink-0">
               <input
                 type="number"
                 inputMode="decimal"
@@ -107,6 +108,16 @@ export function AmountBreakdown({ items, onChange, accent }: Props) {
                 placeholder="0.00"
                 className={`w-24 font-bold ${inputCls}`}
               />
+              <button
+                type="button"
+                aria-label={`Change sign for ${item.label || 'item'}`}
+                disabled={!Number(item.amount)}
+                onClick={() => update(item.id, { amount: String(-(Number(item.amount) || 0)) })}
+                className="min-h-10 text-xs font-semibold text-muted disabled:opacity-40"
+              >
+                ± {Number(item.amount) < 0 ? 'Positive' : 'Negative'}
+              </button>
+              </div>
               <button
                 type="button"
                 onClick={() => setDatePickerOpenFor(isDatePickerOpen ? null : item.id)}

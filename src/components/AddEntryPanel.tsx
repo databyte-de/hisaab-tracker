@@ -178,7 +178,7 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                   <input
                     type="number"
                     step="0.01"
-                    min="0"
+                    inputMode="decimal"
                     required
                     readOnly={breakdownOpen}
                     value={effectiveAmount}
@@ -188,6 +188,17 @@ export function AddEntryPanel({ isOpen, onClose, onSubmit, uniqueNames }: AddEnt
                       breakdownOpen ? 'opacity-80 cursor-not-allowed' : ''
                     }`}
                   />
+                  {!breakdownOpen && (
+                    <button
+                      type="button"
+                      onClick={() => setAmount(value => String(-(Number(value) || 0)))}
+                      disabled={!Number(amount)}
+                      aria-label="Change amount sign"
+                      className="mt-2 min-h-10 text-xs font-semibold text-muted disabled:opacity-40"
+                    >
+                      ± {Number(amount) < 0 ? 'Make positive' : 'Make negative'}
+                    </button>
+                  )}
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center justify-between mb-3 gap-2">
